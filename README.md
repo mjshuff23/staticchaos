@@ -49,3 +49,25 @@ is used, or similar operations take place.
 Best of Luck,
 
 Alathon
+
+## Running Dev and Prod Servers
+
+The code now supports running multiple instances of Chaosium from the same
+build while keeping player files and logs separate. Typical workflow:
+
+1. Compile once: `cd src && make chaosium`.
+2. Start a dev server (default port 4000): `./scripts/run-dev.sh [port]`.
+3. Start a prod server (default port 5000): `./scripts/run-prod.sh [port]`.
+
+Each script:
+
+- creates/updates `env/<env>/player` with the A–Z subfolders and a `temp`
+  directory, so saves never collide,
+- exports `CHAOS_ENV_ROOT`, `CHAOS_PLAYER_DIR`, and `CHAOS_PLAYER_TEMP_DIR`
+  before launching the binary, letting each instance point at its own data,
+- writes console output to `env/<env>/log/<timestamp>.log` so you can tail the
+  appropriate file when debugging.
+
+Under the hood the server still runs from the main `area/` directory, so you
+only rebuild once even if both instances are online. Override paths manually if
+needed (e.g., `CHAOS_PLAYER_DIR=/custom/path ./scripts/run-dev.sh`).

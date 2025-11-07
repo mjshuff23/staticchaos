@@ -1,18 +1,19 @@
 CC      = gcc
 PROF    = -g
 NOCRYPT =
-C_FLAGS = -O -Wall $(PROF) $(NOCRYPT)
+C_FLAGS = -O -Wall $(PROF) $(NOCRYPT) -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=0 -fno-stack-protector
 L_FLAGS = -O $(PROF)
+LIBS   = -lcrypt -lm
 
 O_FILES = act_comm.o act_info.o act_move.o act_obj.o act_wiz.o bit.o board.o clan.o  \
-          comm.o const.o db.o fight.o fist.o handler.o interp.o mazoku.o magic.o     \
-	  mem.o mob_commands.o mob_prog.o olc.o olc_act.o olc_save.o patryn.o        \
+          comm.o const.o db.o envconfig.o fight.o fist.o handler.o interp.o mazoku.o \
+	  magic.o mem.o mob_commands.o mob_prog.o olc.o olc_act.o olc_save.o patryn.o \
 	  quest.o saiyan.o save.o special.o soldier.o sorcerer.o string.o suit.o     \
 	  update.o 
 
 chaosium: $(O_FILES)
 	rm -f chaosium 
-	$(CC) $(L_FLAGS) -o chaosium $(O_FILES)
+	$(CC) $(L_FLAGS) -o chaosium $(O_FILES) $(LIBS)
 
 .c.o: merc.h
 	$(CC) -c $(C_FLAGS) $<

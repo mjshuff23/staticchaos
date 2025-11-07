@@ -2836,7 +2836,7 @@ void do_finger( CHAR_DATA *ch, char *argument )
     i++;
   }
 
-  sprintf( finfile, "../finger/%s", capitalize( arg ) );
+  sprintf( finfile, "%s%s", get_finger_dir(), capitalize( arg ) );
   if ( ( fp = fopen( finfile, "r" ) ) == NULL )
   { send_to_char( "No finger file for that character.\n\r", ch );
     fpReserve = fopen( NULL_FILE, "r" );
@@ -3650,5 +3650,4 @@ void do_pkstat( CHAR_DATA *ch, char *argument )
 }
      
      
-
 

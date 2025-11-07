@@ -38,6 +38,7 @@ extern	int	_filbuf		args( (FILE *) );
  */
 HELP_DATA *		help_first;
 HELP_DATA *		help_last;
+bool                    MOBtrigger = TRUE;
 
 SHOP_DATA *		shop_first;
 SHOP_DATA *		shop_last;
@@ -356,9 +357,14 @@ void boot_db( bool fCopyOver )
 	    }
 	    else
 	    {
-		if ( ( fpArea = fopen( strArea, "r" ) ) == NULL )
+		const char *open_path = strArea;
+
+		if ( strArea[0] != '/' && strArea[0] != '.' )
+		    open_path = area_file_path( strArea );
+
+		if ( ( fpArea = fopen( open_path, "r" ) ) == NULL )
 		{
-		    perror( strArea );
+		    perror( open_path );
 		    exit( 1 );
 		}
 	    }
@@ -425,7 +431,7 @@ void boot_db( bool fCopyOver )
      * Load up the Leaderboard and Loserboard
      */
     fclose( fpReserve );
-    sprintf( path, "leaders.txt" );
+    strcpy( path, area_file_path( "leaders.txt" ) );
     if ( ( fp = fopen( path, "r" ) ) == NULL )
     { bug( "Leaderboard load: fopen", 0 );
       perror( path );
@@ -442,7 +448,7 @@ void boot_db( bool fCopyOver )
     }
     fclose( fp );
 
-    sprintf( path, "losers.txt" );
+    strcpy( path, area_file_path( "losers.txt" ) );
     if ( ( fp = fopen( path, "r" ) ) == NULL )
     { bug( "Loserboard load: fopen", 0 );
       perror( path );
@@ -458,7 +464,7 @@ void boot_db( bool fCopyOver )
     }
     fclose( fp );
 
-    sprintf( path, "../area/clan.txt" );
+    strcpy( path, area_file_path( "clan.txt" ) );
     if ( ( fp = fopen( path, "r" ) ) == NULL )
     { bug( "Clan data load: fopen", 0 );
       perror( path );
@@ -480,7 +486,7 @@ void boot_db( bool fCopyOver )
     fclose( fp );
 
 
-    sprintf( path, "../area/siteban.txt" );
+    strcpy( path, area_file_path( "siteban.txt" ) );
     if ( ( fp = fopen( path, "r" ) ) == NULL )
     { 
       bug( "Clan data load: fopen", 0 );
@@ -510,7 +516,7 @@ void boot_db( bool fCopyOver )
 
     fclose( fp );
 
-    sprintf( path, "../area/newlock.txt" );
+    strcpy( path, area_file_path( "newlock.txt" ) );
     if ( ( fp = fopen( path, "r" ) ) == NULL )
     {
       bug( "Newlock load: fopen", 0 );
@@ -3637,4 +3643,3 @@ int has_uniques( CHAR_DATA *ch )
 
   return unis;
 }
-

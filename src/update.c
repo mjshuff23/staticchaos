@@ -1702,8 +1702,8 @@ void save_llboards( bool leader)
   FILE *fp;
   int i;
 
-  sprintf( leaderpath, "../area/leaders.txt" );
-  sprintf( loserpath, "../area/losers.txt" );
+  strcpy( leaderpath, area_file_path( "leaders.txt" ) );
+  strcpy( loserpath, area_file_path( "losers.txt" ) );
 
   if ( leader )
   { sprintf( leaders, "%s~\n%s~\n%d %d %d %d\n",
@@ -1761,7 +1761,7 @@ void save_clanboard()
   char clanpath[MAX_INPUT_LENGTH];
   int i, j;
 
-  sprintf( clanpath, "../area/clan.txt" );
+  strcpy( clanpath, area_file_path( "clan.txt" ) );
 
   buf[0] = '\0';
   for ( i = 0; i <= MAX_CLANS; i++ )

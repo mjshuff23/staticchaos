@@ -36,7 +36,7 @@ extern          int                     top_ed;
 extern          int                     top_room;
 
 AREA_DATA		*	area_free;
-EXTRA_DESCR_DATA	*	extra_descr_free;
+extern EXTRA_DESCR_DATA	*	extra_descr_free;
 EXIT_DATA		*	exit_free;
 ROOM_INDEX_DATA		*	room_index_free;
 OBJ_INDEX_DATA		*	obj_index_free;
@@ -45,7 +45,7 @@ MOB_INDEX_DATA		*	mob_index_free;
 RESET_DATA		*	reset_free;
 HELP_DATA		*	help_free;
 
-HELP_DATA		*	help_last;
+extern HELP_DATA	*	help_last;
 
 
 

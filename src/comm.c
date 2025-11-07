@@ -47,6 +47,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <unistd.h>
 
 #include "merc.h"
 
@@ -146,21 +147,6 @@ int	socket		args( ( int domain, int type, int protocol ) );
 #if     defined(interactive)
 #include <net/errno.h>
 #include <sys/fcntl.h>
-#endif
-
-#if	defined(linux)
-//int	accept		args( ( int s, struct sockaddr *addr, int *addrlen ) );
-//int	bind		args( ( int s, struct sockaddr *name, int namelen ) );
-int	close		args( ( int fd ) );
-//int	getpeername	args( ( int s, struct sockaddr *name, int *namelen ) );
-//int	getsockname	args( ( int s, struct sockaddr *name, int *namelen ) );
-int	gettimeofday	args( ( struct timeval *tp, struct timezone *tzp ) );
-//int	listen		args( ( int s, int backlog ) );
-int	read		args( ( int fd, char *buf, int nbyte ) );
-int	select		args( ( int width, fd_set *readfds, fd_set *writefds,
-			    fd_set *exceptfds, struct timeval *timeout ) );
-int	socket		args( ( int domain, int type, int protocol ) );
-int	write		args( ( int fd, char *buf, int nbyte ) );
 #endif
 
 #if	defined(macintosh)
@@ -333,6 +319,8 @@ int main( int argc, char **argv )
 
     /* God damn the mud is fucked up */
     log_string( "Got into main." );
+
+    init_path_overrides();
 
     /*
      * Memory debugging if needed.
@@ -876,7 +864,7 @@ void new_descriptor( int control )
     struct sockaddr_in sock;
     // struct hostent *from;
     int desc;
-    int size;
+    socklen_t size;
 
     size = sizeof(sock);
     getsockname( control, (struct sockaddr *) &sock, &size );
@@ -1982,9 +1970,10 @@ void nanny( DESCRIPTOR_DATA *d, char *argument )
 	      if ( !str_prefix( plock->name, d->host ) )
 	      {
 	        write_to_buffer( d,
-	        "Due to the large number of fuckheads using your ISP,\n\rusers may not create new
-characters.  To create a new character,\n\r email Alathon at chaosium@voyager.inetsolve.com 
-with the desired\n\rusername and class.\n\r", 0 );
+	        "Due to the large number of fuckheads using your ISP,\n\r"
+	        "users may not create new characters.  To create a new character,\n\r"
+	        "email Alathon at chaosium@voyager.inetsolve.com with the desired\n\r"
+	        "username and class.\n\r", 0 );
 	        close_socket( d );
 	        return;
 	      }

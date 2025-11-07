@@ -79,7 +79,7 @@ void save_char_obj( CHAR_DATA *ch )
     char strsave[MAX_INPUT_LENGTH];
     char tempsave[MAX_INPUT_LENGTH];
     char buf[MAX_INPUT_LENGTH];
-    FILE *fp;
+    FILE *fp = NULL;
 
     if ( IS_NPC(ch) || ch->level < 1 )
 	return;
@@ -106,14 +106,15 @@ void save_char_obj( CHAR_DATA *ch )
     {
 	bug( "Save_char_obj: fopen", 0 );
 	perror( tempsave );
+	fpReserve = fopen( NULL_FILE, "r" );
+	return;
     }
-    else
-    {
-	fwrite_char( ch, fp );
-	if ( ch->carrying != NULL )
-	    fwrite_obj( ch, ch->carrying, fp, 0 );
-	fprintf( fp, "#END\n" );
-    }
+
+    fwrite_char( ch, fp );
+    if ( ch->carrying != NULL )
+	fwrite_obj( ch, ch->carrying, fp, 0 );
+    fprintf( fp, "#END\n" );
+
     fclose( fp );
     fpReserve = fopen( NULL_FILE, "r" );
 
@@ -134,7 +135,7 @@ void save_char_fin( CHAR_DATA *ch )
     ch = ch->desc->original;
 
   fclose( fpReserve );
-  sprintf( finfile, "%s%s", "../finger/", capitalize( ch->name ) );
+  sprintf( finfile, "%s%s", get_finger_dir(), capitalize( ch->name ) );
 
   if ( ( fp = fopen( finfile, "w" ) ) == NULL )
   { bug( "Save_char_finger: fopen", 0 );
@@ -1782,7 +1783,7 @@ void save_copyover()
   OBJ_DATA *obj_next;
 
   fclose( fpReserve );
-  sprintf( copyfile, "%s", "../area/copyover.are" );
+  strcpy( copyfile, area_file_path( "copyover.are" ) );
 
   if ( ( fp = fopen( copyfile, "w" ) ) == NULL )
   { bug( "Save_copyover: fopen", 0 );
@@ -1807,7 +1808,7 @@ void load_copyover()
   FILE *fp;
 
   fclose( fpReserve );
-  sprintf( copyfile, "%s", "../area/copyover.are" );
+  strcpy( copyfile, area_file_path( "copyover.are" ) );
 
   if ( ( fp = fopen( copyfile, "r" ) ) == NULL )
   { bug( "Load_copyover: fopen", 0 );

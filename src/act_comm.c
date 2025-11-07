@@ -1780,7 +1780,7 @@ void do_suicide( CHAR_DATA *ch, char *argument )
 
 
   sprintf( strsave, "%s%s%s%s", PLAYER_DIR, initial( ch->name ), "/", capitalize( name ) ); 
-  sprintf( strfin, "%s%s", "../finger/", capitalize( name ) );
+  sprintf( strfin, "%s%s", get_finger_dir(), capitalize( name ) );
   sprintf( buf, "%s has committed suicide.", ch->name );
   log_string( buf );
   stc( "Goodbye, cruel world.\n\r\n\r", ch );
@@ -1818,4 +1818,3 @@ void wiznet( char *argument )
   }
   return;
 }
-

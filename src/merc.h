@@ -106,6 +106,25 @@ typedef bool SPEC_FUN	args( ( CHAR_DATA *ch ) );
 typedef void SPELL_FUN	args( ( int sn, int level, CHAR_DATA *ch, void *vo ) );
 typedef void CHANT_FUN	args( ( int cn, int rank, CHAR_DATA *ch, void *vo ) );
 
+/*
+ * Runtime configuration helpers (env overrides etc.).
+ */
+void		init_path_overrides	args( ( void ) );
+const char *	get_player_dir		args( ( void ) );
+const char *	get_player_temp_dir	args( ( void ) );
+const char *	get_area_dir		args( ( void ) );
+const char *	get_area_list_path	args( ( void ) );
+const char *	get_bug_file_path	args( ( void ) );
+const char *	get_idea_file_path	args( ( void ) );
+const char *	get_typo_file_path	args( ( void ) );
+const char *	get_note_file_path	args( ( void ) );
+const char *	get_shutdown_file_path	args( ( void ) );
+const char *	get_copyover_file_path	args( ( void ) );
+const char *	get_mobprog_dir		args( ( void ) );
+const char *	get_finger_dir		args( ( void ) );
+const char *	get_note_dir		args( ( void ) );
+const char *	area_file_path		args( ( const char *filename ) );
+
 
 
 /*
@@ -166,6 +185,10 @@ typedef void CHANT_FUN	args( ( int cn, int rank, CHAR_DATA *ch, void *vo ) );
 #define	SECONDS_PER_WEEK       604800
 
 #include "board.h"
+#ifdef NOTE_DIR
+#undef NOTE_DIR
+#endif
+#define NOTE_DIR	get_note_dir()
 
 
 /*
@@ -1506,7 +1529,7 @@ struct  mob_prog_data
     char *      comlist;
 };
 
-bool    MOBtrigger;
+extern bool    MOBtrigger;
 
 #define ERROR_PROG        -1
 #define IN_FILE_PROG       0
@@ -2684,8 +2707,7 @@ char *	crypt		args( ( const char *key, const char *salt ) );
 #endif
 
 #if	defined(linux)
-//char *	crypt		args( ( const char *key, const char *salt ) );
-#define crypt(s1,s2) (s1)
+#include <crypt.h>
 #endif
 
 #if	defined(macintosh)
@@ -2771,27 +2793,21 @@ char *	crypt		args( ( const char *key, const char *salt ) );
 #define MOB_DIR         ""              /* MOBProg files                */
 #endif
 
-#if defined(unix)
-#define PLAYER_DIR	"../player/"	/* Player files			*/
-#define	PLAYER_TEMP_DIR	"../player/temp" /* temps of player files	*/
+#if defined(unix) || defined(linux)
+#define PLAYER_DIR	get_player_dir()	/* Player files			*/
+#define	PLAYER_TEMP_DIR	get_player_temp_dir() /* temps of player files	*/
 #define NULL_FILE	"/dev/null"	/* To reserve one stream	*/
-#define MOB_DIR         "MOBProgs/"     /* MOBProg files                */
+#define MOB_DIR         get_mobprog_dir()     /* MOBProg files                */
 #endif
 
-#if defined(linux)
-#define PLAYER_DIR	"../player/"	/* Player files			*/
-#define NULL_FILE	"/dev/null"	/* To reserve one stream	*/
-#define MOB_DIR         "MOBProgs/"     /* MOBProg files                */
-#endif
+#define AREA_LIST	get_area_list_path()	/* List of areas		*/
 
-#define AREA_LIST	"area.lst"	/* List of areas		*/
-
-#define BUG_FILE	"bugs.txt"      /* For 'bug' and bug( )		*/
-#define IDEA_FILE	"ideas.txt"	/* For 'idea'			*/
-#define TYPO_FILE	"typos.txt"     /* For 'typo'			*/
-#define NOTE_FILE	"notes.txt"	/* For 'notes'			*/
-#define SHUTDOWN_FILE	"shutdown.txt"	/* For 'shutdown'		*/
-#define	COPYOVER_FILE	"copyover.txt"	/* For 'copyover'		*/
+#define BUG_FILE	get_bug_file_path()      /* For 'bug' and bug( )	*/
+#define IDEA_FILE	get_idea_file_path()	/* For 'idea'			*/
+#define TYPO_FILE	get_typo_file_path()     /* For 'typo'			*/
+#define NOTE_FILE	get_note_file_path()	/* For 'notes'			*/
+#define SHUTDOWN_FILE	get_shutdown_file_path()	/* For 'shutdown'	*/
+#define	COPYOVER_FILE	get_copyover_file_path()	/* For 'copyover'	*/
 #define	EXE_FILE	"../src/chaosium"	/* For 'copyover'		*/
 
 
