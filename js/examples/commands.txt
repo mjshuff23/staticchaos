@@ -1,0 +1,5 @@
+# Sample scripted session
+look
+score
+who
+quit

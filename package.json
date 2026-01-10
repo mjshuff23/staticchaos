@@ -1,0 +1,34 @@
+{
+  "name": "staticchaos",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "doc": "doc"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "mud": "npm run build -- --pretty false && node dist/mud.js",
+    "mud:dev": "npm run build -- --pretty false && node dist/mud.js start dev",
+    "mud:prod": "npm run build -- --pretty false && node dist/mud.js start prod",
+    "mud:client": "npm run build -- --pretty false && node dist/mud-client.js",
+    "mud:dev:watch": "npm run build -- --pretty false && node dist/mud-watch.js dev",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mjshuff23/staticchaos.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/mjshuff23/staticchaos/issues"
+  },
+  "homepage": "https://github.com/mjshuff23/staticchaos#readme",
+  "devDependencies": {
+    "@types/node": "^25.0.6",
+    "typescript": "^5.9.3"
+  }
+}

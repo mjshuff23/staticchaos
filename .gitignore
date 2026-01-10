@@ -49,6 +49,8 @@ Temporary Items
 # Build artifacts
 src/chaosium
 src/*.o
+dist/
+node_modules/
 
 # Runtime data
 chaosium.log
