@@ -10,7 +10,9 @@ const ACTIONS = ['start', 'stop', 'restart', 'status'] as const;
 type Action = (typeof ACTIONS)[number];
 
 function usage(): void {
-  console.log('Usage: mud.js <start|stop|restart|status> <dev|prod> [port]');
+  console.log(
+    'Usage: mud.js <start|stop|restart|status> <dev|prod> [port] [--tool gdb|valgrind]'
+  );
   process.exit(1);
 }
 
@@ -21,7 +23,26 @@ if (args.length < 2) {
 
 const action = args[0] as Action;
 const envName = args[1];
-const portArg = args[2];
+
+type DebugTool = 'gdb' | 'valgrind';
+let portArg: string | undefined;
+let debugTool: DebugTool | undefined;
+
+for (let i = 2; i < args.length; i += 1) {
+  const arg = args[i];
+  if (arg === '--tool' || arg === '--debug') {
+    const next = args[i + 1] as DebugTool | undefined;
+    if (!next || (next !== 'gdb' && next !== 'valgrind')) {
+      usage();
+    }
+    debugTool = next;
+    i += 1;
+  } else if (!portArg) {
+    portArg = arg;
+  } else {
+    usage();
+  }
+}
 
 if (!ACTIONS.includes(action)) {
   usage();
@@ -78,11 +99,16 @@ function start() {
   const stamp = new Date().toISOString().replace(/[:.]/g, '-');
   const wrapperLog = path.join(logRoot, `wrapper-${stamp}.log`);
   const out = fs.openSync(wrapperLog, 'a');
+  const env = { ...process.env };
+  if (debugTool) {
+    env.CHAOS_DEBUG_TOOL = debugTool;
+  }
 
   // Detach so the MUD keeps running after this wrapper exits.
   const child = spawn(runEnv, [envName, port], {
     cwd: repoRoot,
     detached: true,
+    env,
     stdio: ['ignore', out, out],
   });
   child.unref();
@@ -93,6 +119,9 @@ function start() {
   writePid(child.pid);
 
   console.log(`Started ${envName} on port ${port} (pid ${child.pid}).`);
+  if (debugTool) {
+    console.log(`Debug tool: ${debugTool}.`);
+  }
   console.log(`Wrapper log: ${wrapperLog}`);
 }
 

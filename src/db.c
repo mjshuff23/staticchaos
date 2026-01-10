@@ -334,19 +334,15 @@ void boot_db( bool fCopyOver )
     {
 	FILE *fpList;
 
-	log_string( "Opening AREA_LIST." );
 	if ( ( fpList = fopen( AREA_LIST, "r" ) ) == NULL )
 	{
 	    perror( AREA_LIST );
 	    exit( 1 );
 	}
 
-	log_string( "Entering load For loop." );
 	for ( ; ; )
 	{
 	    strcpy( strArea, fread_word( fpList ) );
-
-	    log_string( strArea );
 
 	    if ( strArea[0] == '$' )
 		break;

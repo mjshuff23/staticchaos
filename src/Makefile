@@ -1,8 +1,16 @@
 CC      = gcc
-PROF    = -g
 NOCRYPT =
-C_FLAGS = -O -Wall $(PROF) $(NOCRYPT) -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=0 -fno-stack-protector
-L_FLAGS = -O $(PROF)
+DEBUG  ?= 1
+
+OPT_FLAGS = -O2
+DBG_FLAGS =
+ifeq ($(DEBUG),1)
+OPT_FLAGS = -O0 -fno-omit-frame-pointer
+DBG_FLAGS = -g3
+endif
+
+C_FLAGS = $(OPT_FLAGS) -Wall $(DBG_FLAGS) $(NOCRYPT) -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=0 -fno-stack-protector
+L_FLAGS = $(OPT_FLAGS) $(DBG_FLAGS)
 LIBS   = -lcrypt -lm
 
 O_FILES = act_comm.o act_info.o act_move.o act_obj.o act_wiz.o bit.o board.o clan.o  \

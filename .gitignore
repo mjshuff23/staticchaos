@@ -55,4 +55,7 @@ node_modules/
 # Runtime data
 chaosium.log
 env/*/player/*/*
+env/*/log/*.log
+env/*/log/*.pid
+env/*/log/*.stdout
 js/examples/commands.txt

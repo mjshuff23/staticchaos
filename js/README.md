@@ -24,6 +24,16 @@ npm run mud:dev:watch
 npm run mud:prod:watch
 ```
 
+## Debug runs
+
+```
+npm run mud:prod -- --tool gdb
+npm run mud:prod -- --tool valgrind
+```
+
+`gdb` writes a backtrace log to `env/<env>/log/gdb-<timestamp>.log`.
+`valgrind` writes its report to `env/<env>/log/valgrind-<timestamp>.log`.
+
 ## Client harness
 
 ```

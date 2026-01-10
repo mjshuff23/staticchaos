@@ -479,15 +479,15 @@ Before you is a large void.  You cannot see through it and have no idea what is 
 0 8192 0
 E
 sign~
-This is the portal to the heavens.~
-D0
-~
-~
-0 -1 904
+This is the portal to the heavens. Use 'up' to enter.~
 D2
 ~
 ~
 0 -1 810
+D4
+~
+~
+0 -1 904
 S
 #813
 A Portal~
@@ -496,12 +496,12 @@ Before you is a large void.  You cannot see through it and have no idea what is 
 0 8192 0
 E
 sign~
-This portal leads to the Tower of Sorcery.~
+This portal leads to the Tower of Sorcery. Use 'up' to enter.~
 D0
 ~
 ~
 0 -1 810
-D2
+D4
 ~
 ~
 0 -1 1312
@@ -513,12 +513,12 @@ Before you is a large void.  You cannot see through it and have no idea what is 
 0 8192 0
 E
 sign~
-The pathway to the city of Midgaard.~
+The pathway to the city of Midgaard. Use 'up' to enter.~
 D0
 ~
 ~
 0 -1 820
-D2
+D4
 ~
 ~
 0 -1 3001

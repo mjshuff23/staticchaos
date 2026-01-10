@@ -1366,6 +1366,11 @@ void mprog_driver ( char *com_list, CHAR_DATA *mob, CHAR_DATA *actor,
 
  if IS_AFFECTED( mob, AFF_CHARM )
    return;
+ if ( com_list == NULL || com_list[0] == '\0' )
+   {
+     bug( "Mob: %d empty mobprog command list", mob->pIndexData->vnum );
+     return;
+   }
 
  /* get a random visable mortal player who is in the room with the mob */
  for ( vch = mob->in_room->people; vch; vch = vch->next_in_room )
@@ -1688,4 +1693,3 @@ void mprog_speech_trigger( char *txt, CHAR_DATA *mob )
   return;
 
 }
-

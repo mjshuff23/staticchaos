@@ -82,6 +82,9 @@ void save_area_list()
 	 */
 	fprintf( fp, "help.are\n" );
 	fprintf( fp, "olc.hlp\n" );
+	fprintf( fp, "newhelp.are\n" );
+	fprintf( fp, "logout.are\n" );
+	fprintf( fp, "greeting.are\n" );
 
 	for( pArea = area_first; pArea; pArea = pArea->next )
 	{

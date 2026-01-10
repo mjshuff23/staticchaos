@@ -39,8 +39,8 @@ if [[ ! -f "${AREA_ROOT}/area.lst" ]]; then
   exit 1
 fi
 
-STAMP="$(date +%Y%m%d-%H%M%S)"
-LOG_FILE="${LOG_ROOT}/${STAMP}.log"
+LOG_FILE="${LOG_ROOT}/chaosium-${ENV_NAME}.log"
+DEBUG_TOOL="${CHAOS_DEBUG_TOOL:-}"
 
 export CHAOS_ENV_ROOT="${ENV_ROOT}"
 export CHAOS_PLAYER_DIR="${PLAYER_ROOT}/"
@@ -50,5 +50,30 @@ export CHAOS_FINGER_DIR="${FINGER_ROOT}/"
 export CHAOS_NOTES_DIR="${NOTES_ROOT}/"
 
 cd "${REPO_ROOT}"
+if [[ -n "${DEBUG_TOOL}" ]]; then
+  STAMP="$(date +%Y%m%d-%H%M%S)"
+  DEBUG_LOG="${LOG_ROOT}/${DEBUG_TOOL}-${STAMP}.log"
+  echo "[$(date '+%F %T')] Starting ${ENV_NAME} server on port ${PORT_ARG} under ${DEBUG_TOOL}. Logs: ${DEBUG_LOG}"
+  case "${DEBUG_TOOL}" in
+    gdb)
+      exec gdb -q --batch \
+        -ex "set pagination off" \
+        -ex "run" \
+        -ex "bt full" \
+        -ex "quit" \
+        --args "${REPO_ROOT}/src/chaosium" "${PORT_ARG}" >> "${DEBUG_LOG}" 2>&1
+      ;;
+    valgrind)
+      exec valgrind --tool=memcheck --track-origins=yes --leak-check=full \
+        --log-file="${DEBUG_LOG}" \
+        "${REPO_ROOT}/src/chaosium" "${PORT_ARG}" > "${LOG_FILE}" 2>&1
+      ;;
+    *)
+      echo "Unknown CHAOS_DEBUG_TOOL: ${DEBUG_TOOL} (expected gdb or valgrind)." >&2
+      exit 1
+      ;;
+  esac
+fi
+
 echo "[$(date '+%F %T')] Starting ${ENV_NAME} server on port ${PORT_ARG}. Logs: ${LOG_FILE}"
-exec "${REPO_ROOT}/src/chaosium" "${PORT_ARG}" >> "${LOG_FILE}" 2>&1
+exec "${REPO_ROOT}/src/chaosium" "${PORT_ARG}" > "${LOG_FILE}" 2>&1
