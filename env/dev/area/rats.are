@@ -254,12 +254,12 @@ A silver key rest here, making a clean perimeter wherever it touches.~
 3838 0 0 0
 1 0 0
 E
-silver key~
-Inscribed on this key are unintelliglble runes.
-~
-E
 runes~
 You don't understand what the runes say at all.
+~
+E
+silver key~
+Inscribed on this key are unintelliglble runes.
 ~
 #3802
 key necklace~
@@ -336,9 +336,9 @@ A lone stool sits on the floor.~
 0 2 2 8
 10 0 0
 A
-18 -1
-A
 19 2
+A
+18 -1
 E
 stool~
 This sturdy stool looks like it can be used as a weapon!
@@ -438,9 +438,9 @@ A barbed whip is curled up on the floor.~
 0 3 4 4
 10 0 0
 A
-18 1
-A
 19 1
+A
+18 1
 #3819
 rod holy icaza~
 holy Rod of Icaza~
@@ -450,11 +450,11 @@ A rod of gold rests millimeters from the floor.~
 10 3 3 34
 10 0 0
 A
-17 -5
+3 1
 A
 24 -2
 A
-3 1
+17 -5
 E
 rod holy icaza~
 This rod was blessed by the touch and laugh of Goddess Icaza.  Holding on to it

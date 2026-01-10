@@ -307,11 +307,11 @@ A slightly curved blade of the finest steel.~
 0 1 6 1
 5 0 0
 A
-19 10
+17 -30
 A
 18 10
 A
-17 -30
+19 10
 E
 katana~
 The blade is bright, with few nicks evident.  The metal is clouded
@@ -335,9 +335,9 @@ A slightly curved blade of the finest steel lies here, waiting for action.~
 0 10 20 9
 5 0 0
 A
-19 20
-A
 18 20
+A
+19 20
 #31
 uranus henshin transformation pen~
 A slim henshin pen etched with the sigil of `CUranus`n~
@@ -347,11 +347,11 @@ A slim henshin pen etched with the sigil of `CUranus`n~
 0 0 0 0
 1 0 0
 A
-19 5
+13 200
 A
 18 5
 A
-13 200
+19 5
 E
 locket~
 With just one glance you can tell this pen is an item of power.
@@ -373,9 +373,9 @@ forged of iron.
 15 0 0 0
 10 0 0
 A
-18 35
-A
 19 35
+A
+18 35
 #33
 journeymans boots~
 `gJo`Gur`Wne`Gym`gan's `WBo`Got`gs`n~
@@ -385,9 +385,9 @@ A pair of leather boots lies here.~
 15 0 0 0
 3 50 0
 A
-18 3
-A
 19 3
+A
+18 3
 E
 journeymans~
 You camped a long time for these, didn't you?  A really fucking
@@ -405,9 +405,9 @@ It's so hard to see, you can hardly believe it exists!~
 15 0 0 0
 5 0 0
 A
-17 -75
-A
 18 10
+A
+17 -75
 #35
 rubber dildo~
 `da double-headed black rubber dildo`n~
@@ -417,11 +417,11 @@ rubber dildo~
 15 0 0 0
 1 0 0
 A
-19 5
+13 100
 A
 18 5
 A
-13 100
+19 5
 E
 dildo~
 This large rubber dildo measures rougly 20 by 2 inches, each shaft being
@@ -439,9 +439,9 @@ A puddle of slush.~
 0 1 6 1
 5 0 0
 A
-19 5
-A
 18 5
+A
+19 5
 #51
 ruby ruby-eye blade~
 a `rRuby-eye`n blade~
@@ -451,9 +451,9 @@ A flaming mass of dark energy.~
 0 1 6 1
 5 0 0
 A
-19 15
-A
 18 15
+A
+19 15
 #52
 23skidoo~
 the `dLaguna Blade`n~
@@ -463,9 +463,9 @@ A Big fat error.~
 0 1 6 1
 5 0 0
 A
-19 100
-A
 18 100
+A
+19 100
 #60
 leo suit~
 a Leo mobile suit~

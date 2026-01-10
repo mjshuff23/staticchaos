@@ -247,9 +247,9 @@ A long thin sword with a wide blade makes you wonder.~
 0 4 5 3
 9 3304 0
 A
-18 1
-A
 19 1
+A
+18 1
 #2005
 sword excalibur~
 the sword Excalibur~
@@ -259,9 +259,9 @@ A sword gleams by the light of its magical silvery blade.~
 0 5 4 3
 15 12157 0
 A
-18 3
-A
 1 1
+A
+18 3
 #2006
 crown~
 a kingly crown~
@@ -315,13 +315,13 @@ A large shield lies protecting the ground.~
 15 0 0 0
 15 33000 0
 A
-12 10
-A
-13 10
+19 -1
 A
 18 -2
 A
-19 -1
+13 10
+A
+12 10
 #2012
 scale shield dragonscale~
 a dragonscale shield~
