@@ -1,0 +1,73 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Tag to release (e.g., v1.0.0)"
+        required: true
+      target:
+        description: "Commit SHA or branch to tag (default: main)"
+        required: false
+        default: "main"
+      title:
+        description: "Release title (defaults to tag)"
+        required: false
+        default: ""
+      create_tag:
+        description: "Create and push tag if missing"
+        type: boolean
+        default: true
+      generate_notes:
+        description: "Auto-generate release notes"
+        type: boolean
+        default: true
+      draft:
+        description: "Create as draft"
+        type: boolean
+        default: false
+      prerelease:
+        description: "Mark as prerelease"
+        type: boolean
+        default: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configure git
+        if: ${{ inputs.create_tag }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Create tag if missing
+        if: ${{ inputs.create_tag }}
+        run: |
+          set -euo pipefail
+          TAG="${{ inputs.tag }}"
+          TARGET="${{ inputs.target }}"
+          if git rev-parse -q --verify "refs/tags/${TAG}" >/dev/null; then
+            echo "Tag ${TAG} already exists."
+            exit 0
+          fi
+          git fetch --tags
+          git tag -a "${TAG}" -m "Release ${TAG}" "${TARGET}"
+          git push origin "refs/tags/${TAG}"
+
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ inputs.tag }}
+          target_commitish: ${{ inputs.target }}
+          name: ${{ inputs.title != '' && inputs.title || inputs.tag }}
+          draft: ${{ inputs.draft }}
+          prerelease: ${{ inputs.prerelease }}
+          generate_release_notes: ${{ inputs.generate_notes }}
