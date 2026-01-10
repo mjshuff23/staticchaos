@@ -7,9 +7,9 @@ on:
         description: "Tag to release (e.g., v1.0.0)"
         required: true
       target:
-        description: "Commit SHA or branch to tag (default: main)"
+        description: "Commit SHA or branch to tag (default: workflow branch)"
         required: false
-        default: "main"
+        default: ""
       title:
         description: "Release title (defaults to tag)"
         required: false
@@ -53,12 +53,23 @@ jobs:
         run: |
           set -euo pipefail
           TAG="${{ inputs.tag }}"
-          TARGET="${{ inputs.target }}"
+          TARGET_INPUT="${{ inputs.target }}"
+          if [ -z "${TARGET_INPUT}" ]; then
+            TARGET_INPUT="${GITHUB_REF_NAME}"
+          fi
           if git rev-parse -q --verify "refs/tags/${TAG}" >/dev/null; then
             echo "Tag ${TAG} already exists."
             exit 0
           fi
           git fetch --tags
+          if git rev-parse -q --verify "${TARGET_INPUT}" >/dev/null; then
+            TARGET="${TARGET_INPUT}"
+          elif git rev-parse -q --verify "origin/${TARGET_INPUT}" >/dev/null; then
+            TARGET="origin/${TARGET_INPUT}"
+          else
+            echo "Target '${TARGET_INPUT}' not found. Use a branch name or commit SHA."
+            exit 1
+          fi
           git tag -a "${TAG}" -m "Release ${TAG}" "${TARGET}"
           git push origin "refs/tags/${TAG}"
 
