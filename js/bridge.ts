@@ -4,7 +4,8 @@
 import net from 'net';
 import type { BridgeRequest } from './src/bridge/types';
 import { handlers } from './src/bridge/registry';
-import { sanitizeOutput, toArgv } from './src/bridge/utils';
+import { buildResponseLines } from './src/bridge/response';
+import { sanitizeError, toArgv } from './src/bridge/utils';
 
 const port = Number.parseInt(process.env.CHAOS_JS_BRIDGE_PORT || '', 10) || 4050;
 const host = process.env.CHAOS_JS_BRIDGE_HOST || '127.0.0.1';
@@ -43,12 +44,11 @@ const server = net.createServer((socket) => {
     }
 
     try {
-      const output = sanitizeOutput(handler(req, toArgv(req.args)));
-      socket.end(`OK ${output}\n`);
+      const result = handler(req, toArgv(req.args));
+      const lines = buildResponseLines(result);
+      socket.end(`${lines.join('\n')}\n`);
     } catch (err) {
-      const message =
-        err instanceof Error ? err.message : 'handler threw unknown error';
-      socket.end(`ERR ${sanitizeOutput(message)}\n`);
+      socket.end(`ERR ${sanitizeError(err)}\n`);
     }
   });
 

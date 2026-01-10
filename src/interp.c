@@ -41,6 +41,7 @@ bool    MP_Commands     args( ( CHAR_DATA *ch ) );
 static bool	js_bridge_command	args( ( CHAR_DATA *ch, const char *command,
 					    const char *argument ) );
 static char *	js_bridge_unescape	args( ( const char *input ) );
+static char *	js_bridge_next_line	args( ( char **cursor ) );
 
 /*
  * Command logging types.
@@ -4348,6 +4349,35 @@ static char *js_bridge_unescape( const char *input )
     return out;
 }
 
+static char *js_bridge_next_line( char **cursor )
+{
+    char *start;
+    char *end;
+
+    if ( cursor == NULL || *cursor == NULL )
+	return NULL;
+
+    start = *cursor;
+    if ( start[0] == '\0' )
+	return NULL;
+
+    end = strpbrk( start, "\r\n" );
+    if ( end != NULL )
+    {
+	*end = '\0';
+	end++;
+	while ( *end == '\r' || *end == '\n' )
+	    end++;
+	*cursor = end;
+    }
+    else
+    {
+	*cursor = start + strlen( start );
+    }
+
+    return start;
+}
+
 static bool js_bridge_ends_with_newline( const char *text )
 {
     size_t len;
@@ -4371,6 +4401,18 @@ static bool js_bridge_command( CHAR_DATA *ch, const char *command,
     int class_id = ch->class;
     int tech_bits = 0;
     int primal = 0;
+    int power = 0;
+    int power_max = 0;
+    int speed = 0;
+    int speed_max = 0;
+    int strength = 0;
+    int strength_max = 0;
+    int aegis = 0;
+    int aegis_max = 0;
+    int body = 0;
+    int spirit = 0;
+    int move = ch->move;
+    int max_move = ch->max_move;
     int sockfd;
     struct sockaddr_in addr;
     char *cmd_esc;
@@ -4383,6 +4425,9 @@ static bool js_bridge_command( CHAR_DATA *ch, const char *command,
     ssize_t nread;
     size_t used = 0;
     char *line;
+    char *cursor;
+    char field[32];
+    int value;
     int room_vnum = ch->in_room ? ch->in_room->vnum : -1;
     int trust = get_trust( ch );
 
@@ -4431,9 +4476,19 @@ static bool js_bridge_command( CHAR_DATA *ch, const char *command,
     {
 	tech_bits = ch->pcdata->powers[S_TECH];
 	primal = ch->pcdata->primal;
+	power = ch->pcdata->powers[S_POWER];
+	power_max = ch->pcdata->powers[S_POWER_MAX];
+	speed = ch->pcdata->powers[S_SPEED];
+	speed_max = ch->pcdata->powers[S_SPEED_MAX];
+	strength = ch->pcdata->powers[S_STRENGTH];
+	strength_max = ch->pcdata->powers[S_STRENGTH_MAX];
+	aegis = ch->pcdata->powers[S_AEGIS];
+	aegis_max = ch->pcdata->powers[S_AEGIS_MAX];
+	body = ch->pcdata->body;
+	spirit = ch->pcdata->spirit;
     }
 
-    payload_len = strlen( cmd_esc ) + strlen( arg_esc ) + strlen( player_esc ) + 256;
+    payload_len = strlen( cmd_esc ) + strlen( arg_esc ) + strlen( player_esc ) + 512;
     payload = (char *)malloc( payload_len );
     if ( payload == NULL )
     {
@@ -4448,9 +4503,13 @@ static bool js_bridge_command( CHAR_DATA *ch, const char *command,
     snprintf( payload, payload_len,
 	"{\"command\":\"%s\",\"args\":\"%s\",\"player\":\"%s\",\"room\":%d,"
 	"\"trust\":%d,\"is_npc\":%d,\"class_id\":%d,\"tech_bits\":%d,"
-	"\"primal\":%d}\n",
+	"\"primal\":%d,\"power\":%d,\"power_max\":%d,\"speed\":%d,"
+	"\"speed_max\":%d,\"strength\":%d,\"strength_max\":%d,\"aegis\":%d,"
+	"\"aegis_max\":%d,\"move\":%d,\"max_move\":%d,\"body\":%d,"
+	"\"spirit\":%d}\n",
 	cmd_esc, arg_esc, player_esc, room_vnum, trust, IS_NPC( ch ) ? 1 : 0,
-	class_id, tech_bits, primal );
+	class_id, tech_bits, primal, power, power_max, speed, speed_max,
+	strength, strength_max, aegis, aegis_max, move, max_move, body, spirit );
 
     while ( sent < strlen( payload ) )
     {
@@ -4476,8 +4535,6 @@ static bool js_bridge_command( CHAR_DATA *ch, const char *command,
 	if ( nread <= 0 )
 	    break;
 	used += (size_t)nread;
-	if ( memchr( buffer, '\n', used ) )
-	    break;
     }
     buffer[used] = '\0';
     close( sockfd );
@@ -4493,33 +4550,159 @@ static bool js_bridge_command( CHAR_DATA *ch, const char *command,
 	return TRUE;
     }
 
-    line = buffer;
-    if ( ( line = strchr( buffer, '\n' ) ) != NULL )
-	*line = '\0';
-    if ( ( line = strchr( buffer, '\r' ) ) != NULL )
-	*line = '\0';
-
-    if ( !strncmp( buffer, "OK ", 3 ) )
+    cursor = buffer;
+    line = js_bridge_next_line( &cursor );
+    if ( line == NULL )
     {
-	const char *msg = buffer + 3;
-	msg_decoded = js_bridge_unescape( msg );
-	if ( msg_decoded == NULL )
-	{
-	    send_to_char( "JS bridge out of memory.\n\r", ch );
-	    return TRUE;
-	}
-	if ( msg_decoded[0] != '\0' )
-	    send_to_char( msg_decoded, ch );
-	if ( !js_bridge_ends_with_newline( msg_decoded ) )
-	    send_to_char( "\n\r", ch );
-	free( msg_decoded );
+	send_to_char( "JS bridge returned no response.\n\r", ch );
 	return TRUE;
     }
 
-    if ( !strncmp( buffer, "ERR ", 4 ) )
+    if ( !strncmp( line, "OK", 2 ) )
+    {
+	if ( line[2] == ' ' )
+	{
+	    const char *msg = line + 3;
+	    msg_decoded = js_bridge_unescape( msg );
+	    if ( msg_decoded == NULL )
+	    {
+		send_to_char( "JS bridge out of memory.\n\r", ch );
+		return TRUE;
+	    }
+	    if ( msg_decoded[0] != '\0' )
+		send_to_char( msg_decoded, ch );
+	    if ( !js_bridge_ends_with_newline( msg_decoded ) )
+		send_to_char( "\n\r", ch );
+	    free( msg_decoded );
+	}
+
+	while ( ( line = js_bridge_next_line( &cursor ) ) != NULL )
+	{
+	    if ( line[0] == '\0' )
+		continue;
+
+	    if ( !strncmp( line, "MSG ", 4 ) )
+	    {
+		msg_decoded = js_bridge_unescape( line + 4 );
+		if ( msg_decoded == NULL )
+		{
+		    send_to_char( "JS bridge out of memory.\n\r", ch );
+		    return TRUE;
+		}
+		if ( msg_decoded[0] != '\0' )
+		    send_to_char( msg_decoded, ch );
+		if ( !js_bridge_ends_with_newline( msg_decoded ) )
+		    send_to_char( "\n\r", ch );
+		free( msg_decoded );
+		continue;
+	    }
+
+	    if ( !strncmp( line, "ROOM ", 5 ) )
+	    {
+		msg_decoded = js_bridge_unescape( line + 5 );
+		if ( msg_decoded == NULL )
+		{
+		    send_to_char( "JS bridge out of memory.\n\r", ch );
+		    return TRUE;
+		}
+		if ( msg_decoded[0] != '\0' )
+		    act( msg_decoded, ch, NULL, NULL, TO_ROOM );
+		free( msg_decoded );
+		continue;
+	    }
+
+	    if ( !strncmp( line, "WAIT ", 5 ) )
+	    {
+		int ticks = atoi( line + 5 );
+		if ( ticks > 0 )
+		    WAIT_STATE( ch, ticks );
+		continue;
+	    }
+
+	    if ( !strncmp( line, "ADD ", 4 ) || !strncmp( line, "SET ", 4 ) )
+	    {
+		bool is_set = line[0] == 'S';
+		if ( sscanf( line + 4, "%31s %d", field, &value ) == 2 )
+		{
+		    if ( !strcmp( field, "power" ) )
+		    {
+			if ( !IS_NPC( ch ) && ch->pcdata != NULL )
+			{
+			    int max = ch->pcdata->powers[S_POWER_MAX];
+			    int cur = ch->pcdata->powers[S_POWER];
+			    int next = is_set ? value : ( cur + value );
+			    next = UMIN( next, max );
+			    next = UMAX( next, 0 );
+			    ch->pcdata->powers[S_POWER] = next;
+			}
+		    }
+		    else if ( !strcmp( field, "speed" ) )
+		    {
+			if ( !IS_NPC( ch ) && ch->pcdata != NULL )
+			{
+			    int max = ch->pcdata->powers[S_SPEED_MAX];
+			    int cur = ch->pcdata->powers[S_SPEED];
+			    int next = is_set ? value : ( cur + value );
+			    next = UMIN( next, max );
+			    next = UMAX( next, 0 );
+			    ch->pcdata->powers[S_SPEED] = next;
+			}
+		    }
+		    else if ( !strcmp( field, "strength" ) )
+		    {
+			if ( !IS_NPC( ch ) && ch->pcdata != NULL )
+			{
+			    int max = ch->pcdata->powers[S_STRENGTH_MAX];
+			    int cur = ch->pcdata->powers[S_STRENGTH];
+			    int next = is_set ? value : ( cur + value );
+			    next = UMIN( next, max );
+			    next = UMAX( next, 0 );
+			    ch->pcdata->powers[S_STRENGTH] = next;
+			}
+		    }
+		    else if ( !strcmp( field, "aegis" ) )
+		    {
+			if ( !IS_NPC( ch ) && ch->pcdata != NULL )
+			{
+			    int max = ch->pcdata->powers[S_AEGIS_MAX];
+			    int cur = ch->pcdata->powers[S_AEGIS];
+			    int next = is_set ? value : ( cur + value );
+			    next = UMIN( next, max );
+			    next = UMAX( next, 0 );
+			    ch->pcdata->powers[S_AEGIS] = next;
+			}
+		    }
+		    else if ( !strcmp( field, "move" ) )
+		    {
+			int max = ch->max_move;
+			int cur = ch->move;
+			int next = is_set ? value : ( cur + value );
+			next = UMIN( next, max );
+			next = UMAX( next, 0 );
+			ch->move = next;
+		    }
+		    else if ( !strcmp( field, "primal" ) )
+		    {
+			if ( !IS_NPC( ch ) && ch->pcdata != NULL )
+			{
+			    int cur = ch->pcdata->primal;
+			    int next = is_set ? value : ( cur + value );
+			    next = UMAX( next, 0 );
+			    ch->pcdata->primal = next;
+			}
+		    }
+		}
+		continue;
+	    }
+	}
+
+	return TRUE;
+    }
+
+    if ( !strncmp( line, "ERR ", 4 ) )
     {
 	send_to_char( "JS error: ", ch );
-	msg_decoded = js_bridge_unescape( buffer + 4 );
+	msg_decoded = js_bridge_unescape( line + 4 );
 	if ( msg_decoded == NULL )
 	{
 	    send_to_char( "JS bridge out of memory.\n\r", ch );
@@ -4531,13 +4714,13 @@ static bool js_bridge_command( CHAR_DATA *ch, const char *command,
 	return TRUE;
     }
 
-    if ( !strncmp( buffer, "NOHANDLER", 9 ) )
+    if ( !strncmp( line, "NOHANDLER", 9 ) )
     {
 	send_to_char( "JS: unknown command.\n\r", ch );
 	return TRUE;
     }
 
-    msg_decoded = js_bridge_unescape( buffer );
+    msg_decoded = js_bridge_unescape( line );
     if ( msg_decoded == NULL )
     {
 	send_to_char( "JS bridge out of memory.\n\r", ch );

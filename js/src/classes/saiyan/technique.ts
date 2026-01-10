@@ -1,25 +1,5 @@
-import type { BridgeRequest } from '../bridge/types';
-
-const CLASS_SAIYAN = 1;
-
-const S_KIWAVE = 2;
-const S_KIBOMB = 8;
-const S_KIBOLT = 1;
-const S_KIBLAST = 4;
-const S_KIWALL = 65536;
-const S_KIKOUHOU = 256;
-const S_MASENKOUHA = 512;
-const S_KAMEHAMEHA = 128;
-const S_SOLARFIST = 1024;
-const S_RYUKEN = 131072;
-const S_ZANZOUKEN = 16384;
-const S_KAIOUKEN = 32768;
-const S_FLIGHT = 64;
-const S_KISENSE = 32;
-const S_BATTLESENSE = 8192;
-const S_KIMOVE = 16;
-const S_HAWKEYES = 2048;
-const S_KIAIHOU = 262144;
+import type { BridgeRequest } from '../../bridge/types';
+import { CLASS_SAIYAN, TECH_BITS } from './constants';
 
 const yes = 'x';
 const no = ' ';
@@ -31,12 +11,15 @@ function hasTech(techBits: number | undefined, bit: number): string {
   return (techBits & bit) !== 0 ? yes : no;
 }
 
-export function techniqueHandler(req: BridgeRequest): string {
+export function techniqueHandler(
+  req: BridgeRequest,
+  argv: string[]
+): string {
   if (req.class_id !== CLASS_SAIYAN) {
     return 'Duuuuuh what?';
   }
 
-  const arg = req.args?.trim().toLowerCase() || '';
+  const arg = argv[0]?.toLowerCase() ?? '';
   if (!arg) {
     return [
       '',
@@ -68,34 +51,34 @@ export function techniqueHandler(req: BridgeRequest): string {
       '',
       '',
       'Saiyan battle techniques learned:',
-      `Ki Wave    [${hasTech(techBits, S_KIWAVE)}]  Ki Bomb    [${hasTech(
+      `Ki Wave    [${hasTech(techBits, TECH_BITS.KIWAVE)}]  Ki Bomb    [${hasTech(
         techBits,
-        S_KIBOMB
-      )}]  Ki Bolt    [${hasTech(techBits, S_KIBOLT)}]  Ki Blast  [${hasTech(
+        TECH_BITS.KIBOMB
+      )}]  Ki Bolt    [${hasTech(techBits, TECH_BITS.KIBOLT)}]  Ki Blast  [${hasTech(
         techBits,
-        S_KIBLAST
-      )}]  Ki Wall    [${hasTech(techBits, S_KIWALL)}]`,
-      `Kikouhou   [${hasTech(techBits, S_KIKOUHOU)}]  Masenkouha [${hasTech(
+        TECH_BITS.KIBLAST
+      )}]  Ki Wall    [${hasTech(techBits, TECH_BITS.KIWALL)}]`,
+      `Kikouhou   [${hasTech(techBits, TECH_BITS.KIKOUHOU)}]  Masenkouha [${hasTech(
         techBits,
-        S_MASENKOUHA
+        TECH_BITS.MASENKOUHA
       )}]  Kamehameha [${hasTech(
         techBits,
-        S_KAMEHAMEHA
-      )}]  Solarflar [${hasTech(techBits, S_SOLARFIST)}]  Ryuken     [${hasTech(
+        TECH_BITS.KAMEHAMEHA
+      )}]  Solarflar [${hasTech(
         techBits,
-        S_RYUKEN
-      )}]`,
-      `Zanzouken  [${hasTech(techBits, S_ZANZOUKEN)}]  Kaiouken   [${hasTech(
+        TECH_BITS.SOLARFIST
+      )}]  Ryuken     [${hasTech(techBits, TECH_BITS.RYUKEN)}]`,
+      `Zanzouken  [${hasTech(techBits, TECH_BITS.ZANZOUKEN)}]  Kaiouken   [${hasTech(
         techBits,
-        S_KAIOUKEN
-      )}]  Flight     [${hasTech(techBits, S_FLIGHT)}]  Ki Sense  [${hasTech(
+        TECH_BITS.KAIOUKEN
+      )}]  Flight     [${hasTech(techBits, TECH_BITS.FLIGHT)}]  Ki Sense  [${hasTech(
         techBits,
-        S_KISENSE
-      )}]  Bat. Sense [${hasTech(techBits, S_BATTLESENSE)}]`,
-      `Shunkan I. [${hasTech(techBits, S_KIMOVE)}]  Hawkeyes   [${hasTech(
+        TECH_BITS.KISENSE
+      )}]  Bat. Sense [${hasTech(techBits, TECH_BITS.BATTLESENSE)}]`,
+      `Shunkan I. [${hasTech(techBits, TECH_BITS.KIMOVE)}]  Hawkeyes   [${hasTech(
         techBits,
-        S_HAWKEYES
-      )}]  Kiaihou    [${hasTech(techBits, S_KIAIHOU)}]`,
+        TECH_BITS.HAWKEYES
+      )}]  Kiaihou    [${hasTech(techBits, TECH_BITS.KIAIHOU)}]`,
       '',
     ].join('\n');
   }

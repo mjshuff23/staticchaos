@@ -15,106 +15,28 @@
 
 void do_rage( CHAR_DATA *ch, char *argument )
 {
-  int gain, gain2;
-
-  if (IS_NPC(ch))
+  if ( IS_NPC(ch) )
     return;
 
-  if ( ch->class != CLASS_SAIYAN )
-    return;
-
-  if ( ch->pcdata->powers[S_POWER] >= ch->pcdata->powers[S_POWER_MAX] )
-  { send_to_char( "You are already at full power!\n\r", ch );
-    return;
-  }
-
-  gain = dice(ch->pcdata->body,ch->pcdata->spirit/2) + ch->pcdata->powers[S_POWER_MAX]/100;
-
-  gain2 = isquare( gain );
-
-  if ( ch->move <= UMIN(gain/10,1000) )
-  { send_to_char( "Your body is too exhausted for you to power up.\n\r", ch );
-    return;
-  }
-
-  act( "As your rage builds, your inner power increases!", ch, NULL, NULL, TO_CHAR );
-  act( "$n screams with rage, and $s body ripples with power!", ch, NULL, NULL, TO_ROOM );
-  ch->pcdata->powers[S_POWER] = UMIN( ch->pcdata->powers[S_POWER] + gain,
-  					ch->pcdata->powers[S_POWER_MAX]);
-  ch->pcdata->powers[S_SPEED] = UMIN( ch->pcdata->powers[S_SPEED] + gain2,
-  					ch->pcdata->powers[S_SPEED_MAX]);
-  ch->pcdata->powers[S_STRENGTH] = UMIN( ch->pcdata->powers[S_STRENGTH] + gain2,
-					ch->pcdata->powers[S_STRENGTH_MAX] );
-  ch->pcdata->powers[S_AEGIS] = UMIN( ch->pcdata->powers[S_AEGIS] + gain2,
-  					ch->pcdata->powers[S_AEGIS_MAX]);
-  ch->move -= UMIN( gain / 10, 1000 );
-  WAIT_STATE( ch, 4 );
-
+  interpret( ch, "js:rage" );
   return;
 }
 
 void do_focus( CHAR_DATA *ch, char *argument )
 {
-  char arg[MAX_INPUT_LENGTH];
-  char arg2[MAX_INPUT_LENGTH];
   char buf[MAX_STRING_LENGTH];
-  int increase;
- 
+
   if ( IS_NPC(ch) )
     return;
 
-  if ( ch->class != CLASS_SAIYAN )
-  { send_to_char( "Huh?\n\r", ch );
+  if ( argument[0] == '\0' )
+  {
+    interpret( ch, "js:focus" );
     return;
   }
 
-  argument = one_argument( argument, arg );
-  argument = one_argument( argument, arg2 );
-
-  if ( arg[0] == '\0' || arg[1] == '\0' )
-  { send_to_char( "You must specify what ability you wish to focus, and how much power.\n\r", ch );
-    return;
-  }
-
-  increase = is_number( arg2 ) ? atoi( arg2 ) : 0;
-  if ( increase == 0 )
-  { send_to_char( "How much power do you want to focus?\n\r", ch );
-    return;
-  }
-
-  if ( increase < 0 )
-  { send_to_char( "Uhhhh why?\n\r", ch );
-    return;
-  }
-  if ( increase >= ch->pcdata->powers[S_POWER] )
-  { send_to_char( "You don't have that much power.\n\r", ch );
-    return;
-  }
-
-  if ( !str_prefix( arg, "strength" ) )
-  { ch->pcdata->powers[S_STRENGTH] = UMIN( ch->pcdata->powers[S_STRENGTH] + increase,
-					ch->pcdata->powers[S_STRENGTH_MAX] );
-    act( "$n's muscles bulge with strength.", ch, NULL, NULL, TO_ROOM );
-  }
-  else if ( !str_prefix( arg, "speed" ) )
-  { ch->pcdata->powers[S_SPEED] = UMIN( ch->pcdata->powers[S_SPEED] + increase,
-					ch->pcdata->powers[S_SPEED_MAX] );
-    act( "$n blurs as their movements speed up.", ch, NULL, NULL, TO_ROOM );
-  }
-  else if ( !str_prefix( arg, "aegis" ) )
-  { ch->pcdata->powers[S_AEGIS] = UMIN( ch->pcdata->powers[S_AEGIS] + increase,
-					ch->pcdata->powers[S_AEGIS_MAX] );
-    act( "The aegis around $n flares with renewed energy.", ch, NULL, NULL, TO_ROOM );
-  }
-  else
-  { send_to_char( "Focus on what?\n\r", ch );
-    return;
-  }
-
-  ch->pcdata->powers[S_POWER] -= increase;
-  sprintf( buf, "You channel %d points of power into your %s.\n\r", increase, arg );
-  send_to_char( buf, ch );
-  WAIT_STATE( ch, 4 );
+  snprintf( buf, sizeof( buf ), "js:focus %s", argument );
+  interpret( ch, buf );
   return;
 }
 
