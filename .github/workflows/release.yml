@@ -42,6 +42,24 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Resolve target
+        id: resolve
+        run: |
+          set -euo pipefail
+          TARGET_INPUT="${{ inputs.target }}"
+          if [ -z "${TARGET_INPUT}" ]; then
+            TARGET_INPUT="${GITHUB_REF_NAME}"
+          fi
+          if git rev-parse -q --verify "${TARGET_INPUT}" >/dev/null; then
+            TARGET="${TARGET_INPUT}"
+          elif git rev-parse -q --verify "origin/${TARGET_INPUT}" >/dev/null; then
+            TARGET="origin/${TARGET_INPUT}"
+          else
+            echo "Target '${TARGET_INPUT}' not found. Use a branch name or commit SHA."
+            exit 1
+          fi
+          echo "target=${TARGET}" >> "${GITHUB_OUTPUT}"
+
       - name: Configure git
         if: ${{ inputs.create_tag }}
         run: |
@@ -53,31 +71,19 @@ jobs:
         run: |
           set -euo pipefail
           TAG="${{ inputs.tag }}"
-          TARGET_INPUT="${{ inputs.target }}"
-          if [ -z "${TARGET_INPUT}" ]; then
-            TARGET_INPUT="${GITHUB_REF_NAME}"
-          fi
           if git rev-parse -q --verify "refs/tags/${TAG}" >/dev/null; then
             echo "Tag ${TAG} already exists."
             exit 0
           fi
           git fetch --tags
-          if git rev-parse -q --verify "${TARGET_INPUT}" >/dev/null; then
-            TARGET="${TARGET_INPUT}"
-          elif git rev-parse -q --verify "origin/${TARGET_INPUT}" >/dev/null; then
-            TARGET="origin/${TARGET_INPUT}"
-          else
-            echo "Target '${TARGET_INPUT}' not found. Use a branch name or commit SHA."
-            exit 1
-          fi
-          git tag -a "${TAG}" -m "Release ${TAG}" "${TARGET}"
+          git tag -a "${TAG}" -m "Release ${TAG}" "${{ steps.resolve.outputs.target }}"
           git push origin "refs/tags/${TAG}"
 
       - name: Create GitHub release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ inputs.tag }}
-          target_commitish: ${{ inputs.target }}
+          target_commitish: ${{ steps.resolve.outputs.target }}
           name: ${{ inputs.title != '' && inputs.title || inputs.tag }}
           draft: ${{ inputs.draft }}
           prerelease: ${{ inputs.prerelease }}
