@@ -24,6 +24,8 @@
 #include <math.h>
 #include <errno.h>
 #include <sys/socket.h>
+#include <arpa/inet.h>
+#include <netdb.h>
 #include <netinet/in.h>
 #include <unistd.h>
 #include <stdio.h>
@@ -4397,7 +4399,9 @@ static bool js_bridge_command( CHAR_DATA *ch, const char *command,
 {
     char buffer[MAX_STRING_LENGTH];
     const char *port_env = getenv( "CHAOS_JS_BRIDGE_PORT" );
+    const char *host_env = getenv( "CHAOS_JS_BRIDGE_HOST" );
     int port = 4050;
+    const char *host = "127.0.0.1";
     int class_id = ch->class;
     int tech_bits = 0;
     int primal = 0;
@@ -4433,6 +4437,8 @@ static bool js_bridge_command( CHAR_DATA *ch, const char *command,
 
     if ( port_env != NULL && port_env[0] != '\0' )
 	port = atoi( port_env );
+    if ( host_env != NULL && host_env[0] != '\0' )
+	host = host_env;
 
     if ( port <= 0 )
     {
@@ -4450,7 +4456,17 @@ static bool js_bridge_command( CHAR_DATA *ch, const char *command,
     memset( &addr, 0, sizeof( addr ) );
     addr.sin_family = AF_INET;
     addr.sin_port = htons( (unsigned short)port );
-    addr.sin_addr.s_addr = htonl( 0x7f000001 );
+    if ( inet_pton( AF_INET, host, &addr.sin_addr ) != 1 )
+    {
+	struct hostent *he = gethostbyname( host );
+	if ( he == NULL || he->h_addrtype != AF_INET || he->h_length == 0 )
+	{
+	    close( sockfd );
+	    send_to_char( "JS bridge host lookup failed.\n\r", ch );
+	    return TRUE;
+	}
+	memcpy( &addr.sin_addr, he->h_addr_list[0], sizeof( addr.sin_addr ) );
+    }
 
     if ( connect( sockfd, (struct sockaddr *)&addr, sizeof( addr ) ) < 0 )
     {

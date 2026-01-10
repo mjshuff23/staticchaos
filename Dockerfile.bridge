@@ -1,0 +1,22 @@
+FROM node:20-bookworm-slim AS build
+
+WORKDIR /opt/staticchaos
+
+COPY package.json package-lock.json tsconfig.json ./
+COPY js ./js
+
+RUN npm ci && npm run build -- --pretty false
+
+FROM gcr.io/distroless/nodejs20-debian12
+
+WORKDIR /opt/staticchaos
+COPY --from=build /opt/staticchaos/dist ./dist
+
+ENV CHAOS_JS_BRIDGE_HOST=0.0.0.0
+ENV CHAOS_JS_BRIDGE_PORT=4050
+
+EXPOSE 4050
+
+USER nonroot
+
+CMD ["dist/bridge.js"]

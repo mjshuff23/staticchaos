@@ -43,6 +43,24 @@ npm run mud:prod
 
 See `js/README.md` for wrapper/client details (including scripted logins).
 
+## Run with Docker
+
+Build the image and run a single environment:
+
+```
+docker compose up mud-dev
+```
+
+Or for prod:
+
+```
+docker compose up mud-prod
+```
+
+Compose also starts the JS bridge service, so `js:` commands work out of the box.
+The containers expose ports 4000 (dev), 5000 (prod), and 4050 (bridge).
+Data under `env/dev` and `env/prod` is bind-mounted so changes persist on your host.
+
 ## JS command bridge
 
 Start the bridge server in another terminal:
@@ -64,6 +82,7 @@ js:technique learned
 ```
 
 The default bridge port is 4050; override with `CHAOS_JS_BRIDGE_PORT`.
+The bridge host defaults to `127.0.0.1`; override with `CHAOS_JS_BRIDGE_HOST`.
 
 ## Debugging crashes
 

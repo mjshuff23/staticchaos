@@ -1,0 +1,33 @@
+services:
+  mud-bridge:
+    build:
+      context: .
+      dockerfile: Dockerfile.bridge
+    ports:
+      - "4050:4050"
+
+  mud-dev:
+    build: .
+    command: ["dev", "4000"]
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./env/dev:/opt/staticchaos/env/dev
+    depends_on:
+      - mud-bridge
+    environment:
+      CHAOS_JS_BRIDGE_HOST: mud-bridge
+      CHAOS_JS_BRIDGE_PORT: "4050"
+
+  mud-prod:
+    build: .
+    command: ["prod", "5000"]
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./env/prod:/opt/staticchaos/env/prod
+    depends_on:
+      - mud-bridge
+    environment:
+      CHAOS_JS_BRIDGE_HOST: mud-bridge
+      CHAOS_JS_BRIDGE_PORT: "4050"
