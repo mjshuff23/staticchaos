@@ -171,16 +171,7 @@ static void configure_misc_dirs(const char *root)
     if (finger_override != NULL && finger_override[0] != '\0')
 	snprintf(finger_dir_buf, sizeof(finger_dir_buf), "%s", finger_override);
     else if (root != NULL && root[0] != '\0')
-    {
 	join_path(root, "finger", finger_dir_buf, sizeof(finger_dir_buf));
-	if (!path_exists(finger_dir_buf))
-	{
-	    if (path_exists("finger"))
-		snprintf(finger_dir_buf, sizeof(finger_dir_buf), "%s", "finger");
-	    else if (path_exists("../finger"))
-		snprintf(finger_dir_buf, sizeof(finger_dir_buf), "%s", "../finger");
-	}
-    }
     else if (path_exists("finger"))
 	snprintf(finger_dir_buf, sizeof(finger_dir_buf), "%s", "finger");
     else if (path_exists("../finger"))
@@ -191,16 +182,7 @@ static void configure_misc_dirs(const char *root)
     if (notes_override != NULL && notes_override[0] != '\0')
 	snprintf(note_dir_buf, sizeof(note_dir_buf), "%s", notes_override);
     else if (root != NULL && root[0] != '\0')
-    {
 	join_path(root, "notes", note_dir_buf, sizeof(note_dir_buf));
-	if (!path_exists(note_dir_buf))
-	{
-	    if (path_exists("notes"))
-		snprintf(note_dir_buf, sizeof(note_dir_buf), "%s", "notes");
-	    else if (path_exists("../notes"))
-		snprintf(note_dir_buf, sizeof(note_dir_buf), "%s", "../notes");
-	}
-    }
     else if (path_exists("notes"))
 	snprintf(note_dir_buf, sizeof(note_dir_buf), "%s", "notes");
     else if (path_exists("../notes"))
@@ -221,12 +203,21 @@ void init_path_overrides(void)
     const char *player_override = getenv("CHAOS_PLAYER_DIR");
     const char *player_temp_override = getenv("CHAOS_PLAYER_TEMP_DIR");
 
-    player_dir_value = resolve_path("CHAOS_PLAYER_DIR",
-				    root,
-				    "player/",
-				    "../player/",
-				    player_dir_buf,
-				    sizeof(player_dir_buf));
+    if (player_override != NULL && player_override[0] != '\0')
+    {
+	snprintf(player_dir_buf, sizeof(player_dir_buf), "%s", player_override);
+	ensure_trailing_slash(player_dir_buf, sizeof(player_dir_buf));
+	player_dir_value = player_dir_buf;
+    }
+    else
+    {
+	player_dir_value = resolve_path("CHAOS_PLAYER_DIR",
+					root,
+					"player/",
+					"../player/",
+					player_dir_buf,
+					sizeof(player_dir_buf));
+    }
     if (player_override == NULL && (root == NULL || root[0] == '\0') &&
 	!path_exists(player_dir_value) && path_exists("player"))
     {
@@ -234,12 +225,21 @@ void init_path_overrides(void)
 	player_dir_value = player_dir_buf;
     }
 
-    player_temp_dir_value = resolve_path("CHAOS_PLAYER_TEMP_DIR",
-					 root,
-					 "player/temp",
-					 "../player/temp",
-					 player_temp_dir_buf,
-					 sizeof(player_temp_dir_buf));
+    if (player_temp_override != NULL && player_temp_override[0] != '\0')
+    {
+	snprintf(player_temp_dir_buf, sizeof(player_temp_dir_buf), "%s",
+		 player_temp_override);
+	player_temp_dir_value = player_temp_dir_buf;
+    }
+    else
+    {
+	player_temp_dir_value = resolve_path("CHAOS_PLAYER_TEMP_DIR",
+					     root,
+					     "player/temp",
+					     "../player/temp",
+					     player_temp_dir_buf,
+					     sizeof(player_temp_dir_buf));
+    }
     if (player_temp_override == NULL && (root == NULL || root[0] == '\0') &&
 	!path_exists(player_temp_dir_value) && path_exists("player/temp"))
     {

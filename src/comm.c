@@ -308,6 +308,7 @@ bool	process_output		args( ( DESCRIPTOR_DATA *d, bool fPrompt ) );
 void	read_from_buffer	args( ( DESCRIPTOR_DATA *d ) );
 void	stop_idling		args( ( CHAR_DATA *ch ) );
 void    bust_a_prompt           args( ( CHAR_DATA *ch ) );
+static const char *get_greeting	( void );
 
 int main( int argc, char **argv )
 {
@@ -503,11 +504,11 @@ void game_loop_mac_msdos( void )
      * Send the greeting.
      */
     {
-	extern char * help_greeting;
-	if ( help_greeting[0] == '.' )
-	    write_to_buffer( &dcon, help_greeting+1, 0 );
+	const char *greeting = get_greeting();
+	if ( greeting[0] == '.' )
+	    write_to_buffer( &dcon, greeting+1, 0 );
 	else
-	    write_to_buffer( &dcon, help_greeting  , 0 );
+	    write_to_buffer( &dcon, greeting  , 0 );
     }
 
     /* Main loop */
@@ -992,11 +993,11 @@ void new_descriptor( int control )
      * Send the greeting.
      */
     {
-	extern char * help_greeting;
-	if ( help_greeting[0] == '.' )
-	    write_to_buffer( dnew, help_greeting+1, 0 );
+	const char *greeting = get_greeting();
+	if ( greeting[0] == '.' )
+	    write_to_buffer( dnew, greeting+1, 0 );
 	else
-	    write_to_buffer( dnew, help_greeting  , 0 );
+	    write_to_buffer( dnew, greeting  , 0 );
     }
 
     return;
@@ -3147,3 +3148,20 @@ int gettimeofday( struct timeval *tp, void *tzp )
     tp->tv_usec = 0;
 }
 #endif
+static const char *get_greeting( void )
+{
+    extern char *help_greeting;
+    static bool warned = FALSE;
+
+    if (help_greeting == NULL)
+    {
+	if (!warned)
+	{
+	    log_string("Warning: help_greeting is unset; check greeting.are/area.lst.");
+	    warned = TRUE;
+	}
+	return "";
+    }
+
+    return help_greeting;
+}

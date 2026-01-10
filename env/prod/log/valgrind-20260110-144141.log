@@ -1,0 +1,49 @@
+==41042== Memcheck, a memory error detector
+==41042== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==41042== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==41042== Command: ./src/chaosium 5000
+==41042== Parent PID: 18830
+==41042== 
+==41042== Invalid read of size 1
+==41042==    at 0x14E4AF: new_descriptor (comm.c:996)
+==41042==    by 0x15020E: game_loop_unix (comm.c:690)
+==41042==    by 0x15087E: main (comm.c:404)
+==41042==  Address 0x0 is not stack'd, malloc'd or (recently) free'd
+==41042== 
+==41042== 
+==41042== Process terminating with default action of signal 11 (SIGSEGV)
+==41042==  Access not within mapped region at address 0x0
+==41042==    at 0x14E4AF: new_descriptor (comm.c:996)
+==41042==    by 0x15020E: game_loop_unix (comm.c:690)
+==41042==    by 0x15087E: main (comm.c:404)
+==41042==  If you believe this happened as a result of a stack
+==41042==  overflow in your program's main thread (unlikely but
+==41042==  possible), you can try to increase the size of the
+==41042==  main thread stack using the --main-stacksize= flag.
+==41042==  The main thread stack size used in this run was 8388608.
+==41042== 
+==41042== HEAP SUMMARY:
+==41042==     in use at exit: 4,590,442 bytes in 26 blocks
+==41042==   total heap usage: 381 allocs, 355 frees, 5,139,605 bytes allocated
+==41042== 
+==41042== 262,144 bytes in 2 blocks are possibly lost in loss record 15 of 17
+==41042==    at 0x484D953: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==41042==    by 0x151BE6: alloc_perm (db.c:2684)
+==41042==    by 0x152442: create_object (db.c:2007)
+==41042==    by 0x1529FB: reset_room (db.c:1855)
+==41042==    by 0x152A6D: reset_area (db.c:1906)
+==41042==    by 0x152ADA: area_update (db.c:1645)
+==41042==    by 0x154EAA: boot_db (db.c:422)
+==41042==    by 0x15084D: main (comm.c:401)
+==41042== 
+==41042== LEAK SUMMARY:
+==41042==    definitely lost: 0 bytes in 0 blocks
+==41042==    indirectly lost: 0 bytes in 0 blocks
+==41042==      possibly lost: 262,144 bytes in 2 blocks
+==41042==    still reachable: 4,328,298 bytes in 24 blocks
+==41042==         suppressed: 0 bytes in 0 blocks
+==41042== Reachable blocks (those to which a pointer was found) are not shown.
+==41042== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==41042== 
+==41042== For lists of detected and suppressed errors, rerun with: -s
+==41042== ERROR SUMMARY: 2 errors from 2 contexts (suppressed: 0 from 0)
