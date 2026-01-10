@@ -13,6 +13,7 @@
     "mud:prod": "npm run build -- --pretty false && node dist/mud.js start prod",
     "mud:client": "npm run build -- --pretty false && node dist/mud-client.js",
     "mud:dev:watch": "npm run build -- --pretty false && node dist/mud-watch.js dev",
+    "mud:prod:watch": "npm run build -- --pretty false && node dist/mud-watch.js prod",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
