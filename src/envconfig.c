@@ -105,6 +105,24 @@ static const char *join_path(const char *dir,
     return buf;
 }
 
+static void ensure_trailing_slash(char *path, size_t buf_len)
+{
+    size_t len;
+
+    if (path == NULL)
+	return;
+
+    len = strlen(path);
+    if (len == 0 || path[len - 1] == '/')
+	return;
+
+    if (len + 1 >= buf_len)
+	return;
+
+    path[len] = '/';
+    path[len + 1] = '\0';
+}
+
 static void configure_area_paths(const char *root)
 {
     const char *explicit_dir = getenv("CHAOS_AREA_DIR");
@@ -153,20 +171,45 @@ static void configure_misc_dirs(const char *root)
     if (finger_override != NULL && finger_override[0] != '\0')
 	snprintf(finger_dir_buf, sizeof(finger_dir_buf), "%s", finger_override);
     else if (root != NULL && root[0] != '\0')
+    {
 	join_path(root, "finger", finger_dir_buf, sizeof(finger_dir_buf));
+	if (!path_exists(finger_dir_buf))
+	{
+	    if (path_exists("finger"))
+		snprintf(finger_dir_buf, sizeof(finger_dir_buf), "%s", "finger");
+	    else if (path_exists("../finger"))
+		snprintf(finger_dir_buf, sizeof(finger_dir_buf), "%s", "../finger");
+	}
+    }
     else if (path_exists("finger"))
 	snprintf(finger_dir_buf, sizeof(finger_dir_buf), "%s", "finger");
+    else if (path_exists("../finger"))
+	snprintf(finger_dir_buf, sizeof(finger_dir_buf), "%s", "../finger");
     else
 	snprintf(finger_dir_buf, sizeof(finger_dir_buf), "%s", "../finger");
 
     if (notes_override != NULL && notes_override[0] != '\0')
 	snprintf(note_dir_buf, sizeof(note_dir_buf), "%s", notes_override);
     else if (root != NULL && root[0] != '\0')
+    {
 	join_path(root, "notes", note_dir_buf, sizeof(note_dir_buf));
+	if (!path_exists(note_dir_buf))
+	{
+	    if (path_exists("notes"))
+		snprintf(note_dir_buf, sizeof(note_dir_buf), "%s", "notes");
+	    else if (path_exists("../notes"))
+		snprintf(note_dir_buf, sizeof(note_dir_buf), "%s", "../notes");
+	}
+    }
     else if (path_exists("notes"))
 	snprintf(note_dir_buf, sizeof(note_dir_buf), "%s", "notes");
+    else if (path_exists("../notes"))
+	snprintf(note_dir_buf, sizeof(note_dir_buf), "%s", "../notes");
     else
 	snprintf(note_dir_buf, sizeof(note_dir_buf), "%s", "../notes");
+
+    ensure_trailing_slash(finger_dir_buf, sizeof(finger_dir_buf));
+    ensure_trailing_slash(note_dir_buf, sizeof(note_dir_buf));
 
     finger_dir_value = finger_dir_buf;
     note_dir_value = note_dir_buf;

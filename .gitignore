@@ -52,5 +52,4 @@ src/*.o
 
 # Runtime data
 chaosium.log
-env/*/log/
-env/*/player/
+env/*/player/*/*

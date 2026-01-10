@@ -347,16 +347,16 @@ const	struct	stance_type	stance_table	[MAX_STANCES+1]	=
     { 6, 6, 6, 8, 6, 6, 2, 3, 7, 6, 6 },
     { 5, 7, 7, 9, 8, 8, 5, 2, 6, 6, 6 }
   },
-  // Stork 
+  // Stork
   { "stork",	1,	5,
     { 0, 0, 0, 0, 0, 0, 0, 3, 4, 3, 1 },
     { 9, 9, 9, 9, 9, 9, 2, 3, 9, 7, 7 },
     { 9, 9, 9, 9, 9, 9, 3, 4, 9, 8, 8 }
   }
 }; // end of stance_table
- 
 
- 
+
+
 
 
 /*
@@ -888,7 +888,7 @@ const	struct	skill_type	skill_table	[MAX_SKILL]	=
     },
 
     {
-	"frost breath",		{ 20, 20, 20, 20, 20, 20 },	
+	"frost breath",		{ 20, 20, 20, 20, 20, 20 },
 	spell_frost_breath,	TAR_CHAR_OFFENSIVE,	POS_FIGHTING,
 	NULL,			SLOT(202),	 0,	 4,	FALSE,
 	"breathes frost on",	"!Frost Breath!"
@@ -912,7 +912,7 @@ const	struct	skill_type	skill_table	[MAX_SKILL]	=
  * Fighter and thief skills.
  */
     {
-        "awareness",            {  1, 1, 1, 1, 1, 1 }, 
+        "awareness",            {  1, 1, 1, 1, 1, 1 },
         spell_null,             TAR_IGNORE,             POS_FIGHTING,
         &gsn_awareness,          SLOT( 0),        0,      0,	FALSE,
         "",                     "!Awareness!"
@@ -1113,7 +1113,7 @@ const	struct	skill_type	skill_table	[MAX_SKILL]	=
     {
         "flame breath",		{ 20, 20, 20, 20, 20, 20 },
         spell_null,		TAR_IGNORE,		POS_FIGHTING,
-        NULL,			SLOT(0),	0,	12,    TRUE, 
+        NULL,			SLOT(0),	0,	12,    TRUE,
         "flame breath",		"$n stops burning."
     },
 

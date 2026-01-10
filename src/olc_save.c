@@ -67,11 +67,12 @@ void save_area_list()
 {
     FILE *fp;
     AREA_DATA *pArea;
+    const char *list_path = AREA_LIST;
 
-    if ( ( fp = fopen( "AREA.LST", "w" ) ) == NULL )
+    if ( ( fp = fopen( list_path, "w" ) ) == NULL )
     {
 	bug( "Save_area_list: fopen", 0 );
-	perror( "AREA.LST" );
+	perror( list_path );
     }
     else
     {
@@ -145,11 +146,11 @@ void save_mobiles( FILE *fp, AREA_DATA *pArea )
                 fprintf( fp, "%d ",		pMobIndex->level );
                 fprintf( fp, "%d ",		pMobIndex->hitroll );
                 fprintf( fp, "%d ",		pMobIndex->ac );
-                fprintf( fp, "%dd%d+%d ",	pMobIndex->hitnodice, 
-                                                pMobIndex->hitsizedice, 
+                fprintf( fp, "%dd%d+%d ",	pMobIndex->hitnodice,
+                                                pMobIndex->hitsizedice,
                                                 pMobIndex->hitplus );
-                fprintf( fp, "%dd%d+%d\n",	pMobIndex->damnodice, 
-                                                pMobIndex->damsizedice, 
+                fprintf( fp, "%dd%d+%d\n",	pMobIndex->damnodice,
+                                                pMobIndex->damsizedice,
                                                 pMobIndex->damplus );
                 fprintf( fp, "%d ",		pMobIndex->gold );
 		fprintf( fp, "0\n0 0 " );
@@ -287,7 +288,7 @@ void save_specials( FILE *fp, AREA_DATA *pArea )
 {
     int vnum;
     MOB_INDEX_DATA *pMobIndex;
-    
+
     fprintf( fp, "#SPECIALS\n" );
 
     for( vnum = pArea->lvnum; vnum <= pArea->uvnum; vnum++ )
@@ -318,7 +319,7 @@ void vsave_specials( FILE *fp, AREA_DATA *pArea )
 {
     int vnum;
     MOB_INDEX_DATA *pMobIndex;
-    
+
     fprintf( fp, "#SPECIALS\n" );
 
     for( vnum = pArea->lvnum; vnum <= pArea->uvnum; vnum++ )
@@ -374,7 +375,7 @@ void save_resets( FILE *fp, AREA_DATA *pArea )
 
 	case 'M':
             pLastMob = get_mob_index( pReset->arg1 );
-	    fprintf( fp, "M 0 %d %d %d\n", 
+	    fprintf( fp, "M 0 %d %d %d\n",
 	        pReset->arg1,
                 pReset->arg2,
                 pReset->arg3 );
@@ -382,7 +383,7 @@ void save_resets( FILE *fp, AREA_DATA *pArea )
 
 	case 'O':
             pLastObj = get_obj_index( pReset->arg1 );
-	    fprintf( fp, "O 0 %d %d %d\n", 
+	    fprintf( fp, "O 0 %d %d %d\n",
 	        pReset->arg1,
                 pReset->arg2,
                 pReset->arg3 );
@@ -390,7 +391,7 @@ void save_resets( FILE *fp, AREA_DATA *pArea )
 
 	case 'P':
             pLastObj = get_obj_index( pReset->arg1 );
-	    fprintf( fp, "P 0 %d 0 %d\n", 
+	    fprintf( fp, "P 0 %d 0 %d\n",
 	        pReset->arg1,
                 pReset->arg3  );
             break;
@@ -421,7 +422,7 @@ void save_resets( FILE *fp, AREA_DATA *pArea )
             break;
 
 	case 'R':
-	    fprintf( fp, "R 0 %d %d\n", 
+	    fprintf( fp, "R 0 %d %d\n",
 	        pReset->arg1,
                 pReset->arg2 );
             break;
@@ -470,7 +471,7 @@ void vsave_resets( FILE *fp, AREA_DATA *pArea )
 
 	case 'M':
             pLastMob = get_mob_index( pReset->arg1 );
-	    fprintf( fp, "M 0 %d %2d %-5d \t; %s to %s\n", 
+	    fprintf( fp, "M 0 %d %2d %-5d \t; %s to %s\n",
 	        pReset->arg1,
                 pReset->arg2,
                 pReset->arg3,
@@ -480,7 +481,7 @@ void vsave_resets( FILE *fp, AREA_DATA *pArea )
 
 	case 'O':
             pLastObj = get_obj_index( pReset->arg1 );
-	    fprintf( fp, "O 0 %d  0 %-5d \t; %s to %s\n", 
+	    fprintf( fp, "O 0 %d  0 %-5d \t; %s to %s\n",
 	        pReset->arg1,
                 pReset->arg3,
                 capitalize(pLastObj->short_descr),
@@ -489,7 +490,7 @@ void vsave_resets( FILE *fp, AREA_DATA *pArea )
 
 	case 'P':
             pLastObj = get_obj_index( pReset->arg1 );
-	    fprintf( fp, "P 0 %d  0 %-5d \t; %s inside %s\n", 
+	    fprintf( fp, "P 0 %d  0 %-5d \t; %s inside %s\n",
 	        pReset->arg1,
                 pReset->arg3,
                 capitalize(get_obj_index( pReset->arg1 )->short_descr),
@@ -533,7 +534,7 @@ void vsave_resets( FILE *fp, AREA_DATA *pArea )
             break;
 
 	case 'R':
-	    fprintf( fp, "R 0 %d %2d      \t; Randomize %s\n", 
+	    fprintf( fp, "R 0 %d %2d      \t; Randomize %s\n",
 	        pReset->arg1,
                 pReset->arg2,
                 pRoomIndex->name );
@@ -561,7 +562,7 @@ void save_shops( FILE *fp, AREA_DATA *pArea )
     MOB_INDEX_DATA *pMobIndex;
     int iTrade;
     int vnum;
-    
+
     fprintf( fp, "#SHOPS\n" );
 
     for( vnum = pArea->lvnum; vnum <= pArea->uvnum; vnum++ )
@@ -607,7 +608,7 @@ void vsave_shops( FILE *fp, AREA_DATA *pArea )
     MOB_INDEX_DATA *pMobIndex;
     int iTrade;
     int vnum;
-    
+
     fprintf( fp, "#SHOPS\n" );
 
     for( vnum = pArea->lvnum; vnum <= pArea->uvnum; vnum++ )
@@ -661,9 +662,9 @@ void save_helps( FILE *fp, AREA_DATA *pArea )
 		fprintf( fp, "#HELPS\n\n" );
 		found = TRUE;
 	    }
-	    fprintf( fp, "%d %s~\n%s~\n", 
+	    fprintf( fp, "%d %s~\n%s~\n",
 		pHelp->level,
-		all_capitalize( pHelp->keyword ), 
+		all_capitalize( pHelp->keyword ),
 		fix_string( pHelp->text ) );
 	}
     }
@@ -685,11 +686,14 @@ void save_area( AREA_DATA *pArea )
 {
     FILE *fp;
 
+    char path[MAX_STRING_LENGTH];
+
     fclose( fpReserve );
-    if ( !( fp = fopen( pArea->filename, "w" ) ) )
+    strcpy( path, area_file_path( pArea->filename ) );
+    if ( !( fp = fopen( path, "w" ) ) )
     {
-	bug( "Open_area: fopen", 0 );
-	perror( pArea->filename );
+        bug( "Open_area: fopen", 0 );
+        perror( path );
     }
 
     fprintf( fp, "#AREADATA\n" );
@@ -802,7 +806,7 @@ void do_asave( CHAR_DATA *ch, char *argument )
 	{
 	    /* Builder must be assigned this area. */
 	    if ( !IS_BUILDER( ch, pArea ) )
-		continue;	  
+		continue;
 
 	    if ( !str_cmp( "verbose", argument ) )
 		SET_BIT( pArea->area_flags, AREA_VERBOSE );
@@ -860,7 +864,7 @@ void do_asave( CHAR_DATA *ch, char *argument )
     /* Save area being edited, if authorized. */
     /* -------------------------------------- */
     if ( !str_cmp( arg1, "area" ) )
-    {	
+    {
 	/* Find the area to save. */
 	switch (ch->desc->editor)
 	{
@@ -901,4 +905,3 @@ void do_asave( CHAR_DATA *ch, char *argument )
     do_asave( ch, "" );
     return;
 }
-

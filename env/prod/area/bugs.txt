@@ -3942,3 +3942,137 @@
 [*****] BUG: Fix_exits: 813:2 -> 1312:0 -> 1313.
 [*****] BUG: Fix_exits: 814:2 -> 3001:0 -> 3054.
 [*****] BUG: Fix_exits: 5063:1 -> 5031:3 -> 5030.
+[*****] BUG: Fix_exits: 812:0 -> 904:2 -> 903.
+[*****] BUG: Fix_exits: 813:2 -> 1312:0 -> 1313.
+[*****] BUG: Fix_exits: 814:2 -> 3001:0 -> 3054.
+[*****] BUG: Fix_exits: 5063:1 -> 5031:3 -> 5030.
+[*****] BUG: Error writing to: ../notes/General
+[*****] BUG: Error writing to: ../notes/Ideas
+[*****] BUG: Error writing to: ../notes/Announce
+[*****] BUG: Error writing to: ../notes/Bugs
+[*****] BUG: Error writing to: ../notes/Personal
+[*****] BUG: Fix_exits: 812:0 -> 904:2 -> 903.
+[*****] BUG: Fix_exits: 813:2 -> 1312:0 -> 1313.
+[*****] BUG: Fix_exits: 814:2 -> 3001:0 -> 3054.
+[*****] BUG: Fix_exits: 5063:1 -> 5031:3 -> 5030.
+[*****] BUG: Error writing to: ../notes/General
+[*****] BUG: Error writing to: ../notes/Ideas
+[*****] BUG: Error writing to: ../notes/Announce
+[*****] BUG: Error writing to: ../notes/Bugs
+[*****] BUG: Error writing to: ../notes/Personal
+[*****] BUG: Fix_exits: 812:0 -> 904:2 -> 903.
+[*****] BUG: Fix_exits: 813:2 -> 1312:0 -> 1313.
+[*****] BUG: Fix_exits: 814:2 -> 3001:0 -> 3054.
+[*****] BUG: Fix_exits: 5063:1 -> 5031:3 -> 5030.
+[*****] BUG: Error writing to: ../notes/General
+[*****] BUG: Error writing to: ../notes/Ideas
+[*****] BUG: Error writing to: ../notes/Announce
+[*****] BUG: Error writing to: ../notes/Bugs
+[*****] BUG: Error writing to: ../notes/Personal
+[*****] BUG: Fix_exits: 812:0 -> 904:2 -> 903.
+[*****] BUG: Fix_exits: 813:2 -> 1312:0 -> 1313.
+[*****] BUG: Fix_exits: 814:2 -> 3001:0 -> 3054.
+[*****] BUG: Fix_exits: 5063:1 -> 5031:3 -> 5030.
+[*****] BUG: Error writing to: ../notes/General
+[*****] BUG: Error writing to: ../notes/Ideas
+[*****] BUG: Error writing to: ../notes/Announce
+[*****] BUG: Error writing to: ../notes/Bugs
+[*****] BUG: Error writing to: ../notes/Personal
+[*****] BUG: Fix_exits: 812:0 -> 904:2 -> 903.
+[*****] BUG: Fix_exits: 813:2 -> 1312:0 -> 1313.
+[*****] BUG: Fix_exits: 814:2 -> 3001:0 -> 3054.
+[*****] BUG: Fix_exits: 5063:1 -> 5031:3 -> 5030.
+[*****] BUG: Error writing to: ../notes/General
+[*****] BUG: Error writing to: ../notes/Ideas
+[*****] BUG: Error writing to: ../notes/Announce
+[*****] BUG: Error writing to: ../notes/Bugs
+[*****] BUG: Error writing to: ../notes/Personal
+[*****] BUG: Fix_exits: 812:0 -> 904:2 -> 903.
+[*****] BUG: Fix_exits: 813:2 -> 1312:0 -> 1313.
+[*****] BUG: Fix_exits: 814:2 -> 3001:0 -> 3054.
+[*****] BUG: Fix_exits: 5063:1 -> 5031:3 -> 5030.
+[*****] BUG: Error writing to: ../notes/General
+[*****] BUG: Error writing to: ../notes/Ideas
+[*****] BUG: Error writing to: ../notes/Announce
+[*****] BUG: Error writing to: ../notes/Bugs
+[*****] BUG: Error writing to: ../notes/Personal
+[*****] BUG: Fix_exits: 812:0 -> 904:2 -> 903.
+[*****] BUG: Fix_exits: 813:2 -> 1312:0 -> 1313.
+[*****] BUG: Fix_exits: 814:2 -> 3001:0 -> 3054.
+[*****] BUG: Fix_exits: 5063:1 -> 5031:3 -> 5030.
+[*****] BUG: Error writing to: ../notes/General
+[*****] BUG: Error writing to: ../notes/Ideas
+[*****] BUG: Error writing to: ../notes/Announce
+[*****] BUG: Error writing to: ../notes/Bugs
+[*****] BUG: Error writing to: ../notes/Personal
+[*****] BUG: Fix_exits: 812:0 -> 904:2 -> 903.
+[*****] BUG: Fix_exits: 813:2 -> 1312:0 -> 1313.
+[*****] BUG: Fix_exits: 814:2 -> 3001:0 -> 3054.
+[*****] BUG: Fix_exits: 5063:1 -> 5031:3 -> 5030.
+[*****] BUG: Error writing to: ../notes/General
+[*****] BUG: Error writing to: ../notes/Ideas
+[*****] BUG: Error writing to: ../notes/Announce
+[*****] BUG: Error writing to: ../notes/Bugs
+[*****] BUG: Error writing to: ../notes/Personal
+[*****] BUG: Fix_exits: 812:0 -> 904:2 -> 903.
+[*****] BUG: Fix_exits: 813:2 -> 1312:0 -> 1313.
+[*****] BUG: Fix_exits: 814:2 -> 3001:0 -> 3054.
+[*****] BUG: Fix_exits: 5063:1 -> 5031:3 -> 5030.
+[*****] BUG: Error writing to: ../notes/General
+[*****] BUG: Error writing to: ../notes/Ideas
+[*****] BUG: Error writing to: ../notes/Announce
+[*****] BUG: Error writing to: ../notes/Bugs
+[*****] BUG: Error writing to: ../notes/Personal
+[*****] BUG: Fix_exits: 812:0 -> 904:2 -> 903.
+[*****] BUG: Fix_exits: 813:2 -> 1312:0 -> 1313.
+[*****] BUG: Fix_exits: 814:2 -> 3001:0 -> 3054.
+[*****] BUG: Fix_exits: 5063:1 -> 5031:3 -> 5030.
+[*****] BUG: Error writing to: ../notes/General
+[*****] BUG: Error writing to: ../notes/Ideas
+[*****] BUG: Error writing to: ../notes/Announce
+[*****] BUG: Error writing to: ../notes/Bugs
+[*****] BUG: Error writing to: ../notes/Personal
+[*****] BUG: Fix_exits: 812:0 -> 904:2 -> 903.
+[*****] BUG: Fix_exits: 813:2 -> 1312:0 -> 1313.
+[*****] BUG: Fix_exits: 814:2 -> 3001:0 -> 3054.
+[*****] BUG: Fix_exits: 5063:1 -> 5031:3 -> 5030.
+[*****] BUG: Error writing to: ../notes/General
+[*****] BUG: Error writing to: ../notes/Ideas
+[*****] BUG: Error writing to: ../notes/Announce
+[*****] BUG: Error writing to: ../notes/Bugs
+[*****] BUG: Error writing to: ../notes/Personal
+[*****] BUG: Fix_exits: 812:0 -> 904:2 -> 903.
+[*****] BUG: Fix_exits: 813:2 -> 1312:0 -> 1313.
+[*****] BUG: Fix_exits: 814:2 -> 3001:0 -> 3054.
+[*****] BUG: Fix_exits: 5063:1 -> 5031:3 -> 5030.
+[*****] BUG: Error writing to: ../notes/General
+[*****] BUG: Error writing to: ../notes/Ideas
+[*****] BUG: Error writing to: ../notes/Announce
+[*****] BUG: Error writing to: ../notes/Bugs
+[*****] BUG: Error writing to: ../notes/Personal
+[*****] BUG: Fix_exits: 812:0 -> 904:2 -> 903.
+[*****] BUG: Fix_exits: 813:2 -> 1312:0 -> 1313.
+[*****] BUG: Fix_exits: 814:2 -> 3001:0 -> 3054.
+[*****] BUG: Fix_exits: 5063:1 -> 5031:3 -> 5030.
+[*****] BUG: Error writing to: ../notes/General
+[*****] BUG: Error writing to: ../notes/Ideas
+[*****] BUG: Error writing to: ../notes/Announce
+[*****] BUG: Error writing to: ../notes/Bugs
+[*****] BUG: Error writing to: ../notes/Personal
+[*****] BUG: Fix_exits: 812:0 -> 904:2 -> 903.
+[*****] BUG: Fix_exits: 813:2 -> 1312:0 -> 1313.
+[*****] BUG: Fix_exits: 814:2 -> 3001:0 -> 3054.
+[*****] BUG: Fix_exits: 5063:1 -> 5031:3 -> 5030.
+[*****] BUG: Error writing to: ../notes/General
+[*****] BUG: Error writing to: ../notes/Ideas
+[*****] BUG: Error writing to: ../notes/Announce
+[*****] BUG: Error writing to: ../notes/Bugs
+[*****] BUG: Error writing to: ../notes/Personal
+[*****] BUG: Fix_exits: 812:0 -> 904:2 -> 903.
+[*****] BUG: Fix_exits: 813:2 -> 1312:0 -> 1313.
+[*****] BUG: Fix_exits: 814:2 -> 3001:0 -> 3054.
+[*****] BUG: Fix_exits: 5063:1 -> 5031:3 -> 5030.
+[*****] BUG: Fix_exits: 812:0 -> 904:2 -> 903.
+[*****] BUG: Fix_exits: 813:2 -> 1312:0 -> 1313.
+[*****] BUG: Fix_exits: 814:2 -> 3001:0 -> 3054.
+[*****] BUG: Fix_exits: 5063:1 -> 5031:3 -> 5030.
