@@ -1,7 +1,0 @@
-# Sample scripted session
-Yokito
-gokarot
-look
-score
-who
-quit

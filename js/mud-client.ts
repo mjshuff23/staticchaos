@@ -5,8 +5,9 @@ import fs from 'fs';
 import net from 'net';
 
 function usage(): void {
-  console.log('Usage: mud-client.js [--host host] [--port port] [--cmd cmd] [--file path] [--delay ms] [--quit]');
+  console.log('Usage: mud-client.js [--host host] [--port port] [--cmd cmd] [--file path] [--delay ms] [--linger ms] [--quit]');
   console.log('If no --cmd/--file is provided, stdin is piped to the server.');
+  console.log('Use <enter> in a file to send a blank line (for prompts that need RETURN).');
   process.exit(1);
 }
 
@@ -14,6 +15,7 @@ const args = process.argv.slice(2);
 let host = '127.0.0.1';
 let port = 5000;
 let delayMs = 200;
+let lingerMs = 1500;
 let cmds: string[] = [];
 let filePath: string | null = null;
 let sendQuit = false;
@@ -30,6 +32,8 @@ for (let i = 0; i < args.length; i += 1) {
     filePath = args[++i] || null;
   } else if (arg === '--delay') {
     delayMs = Number.parseInt(args[++i] || '', 10);
+  } else if (arg === '--linger') {
+    lingerMs = Number.parseInt(args[++i] || '', 10);
   } else if (arg === '--quit') {
     sendQuit = true;
   } else {
@@ -45,7 +49,13 @@ if (filePath) {
   const lines = fs.readFileSync(filePath, 'utf8')
     .split(/\r?\n/)
     .map((line: string) => line.trim())
-    .filter((line: string) => line.length > 0 && !line.startsWith('#'));
+    .filter((line: string) => line.length > 0 && !line.startsWith('#'))
+    .map((line: string) => {
+      if (line.toLowerCase() === '<enter>' || line.toLowerCase() === '<return>') {
+        return '';
+      }
+      return line;
+    });
   cmds = cmds.concat(lines);
 }
 
@@ -58,7 +68,11 @@ const socket = net.createConnection({ host, port }, () => {
     let index = 0;
     const sendNext = () => {
       if (index >= cmds.length) {
-        socket.end();
+        if (lingerMs > 0) {
+          setTimeout(() => socket.end(), lingerMs);
+        } else {
+          socket.end();
+        }
         return;
       }
       // Small delay lets the server respond between commands.

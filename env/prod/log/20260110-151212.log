@@ -70,3 +70,10 @@ Sat Jan 10 15:12:18 2026 :: Warning: help_greeting is unset; check greeting.are/
 Sat Jan 10 15:12:19 2026 :: EOF encountered on read.
 Sat Jan 10 15:12:19 2026 :: Closing link to Look.
 Sat Jan 10 15:13:29 2026 :: Sock.sinaddr:  127.0.0.1
+Sat Jan 10 15:16:05 2026 :: EOF encountered on read.
+Sat Jan 10 15:16:11 2026 :: Sock.sinaddr:  127.0.0.1
+Sat Jan 10 15:16:11 2026 :: Yokito@127.0.0.1 has connected.
+Sat Jan 10 15:16:12 2026 :: EOF encountered on read.
+Sat Jan 10 15:16:12 2026 :: Closing link to Yokito.
+Sat Jan 10 15:17:21 2026 :: Sock.sinaddr:  127.0.0.1
+Sat Jan 10 15:17:26 2026 :: Sock.sinaddr:  127.0.0.1

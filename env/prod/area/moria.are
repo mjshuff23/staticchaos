@@ -442,9 +442,9 @@ A metal helmet is here.~
 3 0 0 0
 4 3000 0
 A
-24 -2
-A
 23 -2
+A
+24 -2
 #4052
 mushroom~
 a mushroom~
@@ -466,9 +466,9 @@ A beautifully crafted dirk is lying here.~
 0 2 6 11
 2 850 0
 A
-18 1
-A
 19 2
+A
+18 1
 E
 dirk~
 It's a medium sized, beautifully crafted dirk made from grey alloy.
@@ -496,9 +496,9 @@ Some gloves are here.  They look like the right equipment for fighting.~
 2 0 0 0
 1 1500 0
 A
-18 2
-A
 19 1
+A
+18 2
 #4102
 scroll ysafg~
 a scroll which reads "ysafg"~
@@ -556,12 +556,12 @@ A ancient heavy oak staff is here.~
 15 4 2 27
 10 3000 0
 E
-staff oak~
-You see it has some sort of runes on it.
-~
-E
 runes~
 The runes says : Funthark.
+~
+E
+staff oak~
+You see it has some sort of runes on it.
 ~
 #4152
 dagger light silver~
@@ -799,10 +799,6 @@ the north marking the entrance to a cave (or a grave :-).
 ~
 40 4 4
 E
-bushes~
-Small crippled bushes desperately trying to grow south.
-~
-E
 sign~
 The sign says:
 
@@ -819,6 +815,10 @@ The sign says:
                  | |
                  | |
                  | |
+~
+E
+bushes~
+Small crippled bushes desperately trying to grow south.
 ~
 D0
 ~
