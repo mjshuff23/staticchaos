@@ -82,7 +82,12 @@ char * strstr(s1,s2) const char *s1; const char *s2;
  */
 char *mprog_next_command( char *clist )
 {
-
+  static char empty[] = "";
+  if ( clist == NULL )
+    {
+      bug( "mprog_next_command: NULL command list", 0 );
+      return empty;
+    }
   char *pointer = clist;
 
   while ( *pointer != '\n' && *pointer != '\0' )
@@ -918,7 +923,7 @@ char *mprog_process_if( char *ifchck, char *com_list, CHAR_DATA *mob,
 		       CHAR_DATA *rndm )
 {
 
- char null[ 1 ];
+ static char null[ 1 ];
  char buf[ MAX_INPUT_LENGTH ];
  char *morebuf = '\0';
  char    *cmnd = '\0';

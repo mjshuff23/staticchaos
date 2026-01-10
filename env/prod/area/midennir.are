@@ -792,6 +792,11 @@ return to the forest.
 ~
 4 0 3
 E
+sign~
+The sign reads:
+   The Woodsman
+~
+E
 credits credit author~
 +-------------------------------------------------+
 | This zone originally written for Copper II DIKU |
@@ -799,11 +804,6 @@ credits credit author~
 | Modification and alterations for MERCmud DIKU   |
 |   by VampLestat                        1 JAN 93 |
 +-------------------------------------------------+
-~
-E
-sign~
-The sign reads:
-   The Woodsman
 ~
 D0
 You can go north around the inn.
