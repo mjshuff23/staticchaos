@@ -22,6 +22,10 @@
 #endif
 #include <ctype.h>
 #include <math.h>
+#include <errno.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -33,6 +37,10 @@
 bool	check_social	args( ( CHAR_DATA *ch, char *command,
 			    char *argument ) );
 bool    MP_Commands     args( ( CHAR_DATA *ch ) );
+
+static bool	js_bridge_command	args( ( CHAR_DATA *ch, const char *command,
+					    const char *argument ) );
+static char *	js_bridge_unescape	args( ( const char *input ) );
 
 /*
  * Command logging types.
@@ -4153,6 +4161,12 @@ void interpret( CHAR_DATA *ch, char *argument )
 	argument = one_argument( argument, command );
     }
 
+    if ( !str_prefix( "js:", command ) )
+    {
+	if ( js_bridge_command( ch, command + 3, argument ) )
+	    return;
+    }
+
     /*
      * Look for command in command table.
      */
@@ -4256,6 +4270,284 @@ void interpret( CHAR_DATA *ch, char *argument )
 
     tail_chain( );
     return;
+}
+
+static char *js_bridge_escape( const char *input )
+{
+    size_t len = strlen( input );
+    size_t cap = ( len * 6 ) + 1;
+    char *out = (char *)malloc( cap );
+    char *p = out;
+    size_t i;
+
+    if ( out == NULL )
+	return NULL;
+
+    for ( i = 0; i < len; i++ )
+    {
+	unsigned char c = (unsigned char)input[i];
+	switch ( c )
+	{
+	    case '\\': *p++ = '\\'; *p++ = '\\'; break;
+	    case '"':  *p++ = '\\'; *p++ = '"';  break;
+	    case '\n': *p++ = '\\'; *p++ = 'n';  break;
+	    case '\r': *p++ = '\\'; *p++ = 'r';  break;
+	    case '\t': *p++ = '\\'; *p++ = 't';  break;
+	    default:
+		if ( c < 0x20 )
+		{
+		    sprintf( p, "\\u%04x", c );
+		    p += 6;
+		}
+		else
+		{
+		    *p++ = (char)c;
+		}
+		break;
+	}
+    }
+    *p = '\0';
+    return out;
+}
+
+static char *js_bridge_unescape( const char *input )
+{
+    size_t len = strlen( input );
+    char *out = (char *)malloc( len + 1 );
+    char *p = out;
+    size_t i;
+
+    if ( out == NULL )
+	return NULL;
+
+    for ( i = 0; i < len; i++ )
+    {
+	char c = input[i];
+	if ( c == '\\' && i + 1 < len )
+	{
+	    char n = input[i + 1];
+	    i++;
+	    switch ( n )
+	    {
+		case 'n': *p++ = '\n'; break;
+		case 'r': *p++ = '\r'; break;
+		case 't': *p++ = '\t'; break;
+		case '\\': *p++ = '\\'; break;
+		case '"': *p++ = '"'; break;
+		default:
+		    *p++ = n;
+		    break;
+	    }
+	}
+	else
+	{
+	    *p++ = c;
+	}
+    }
+    *p = '\0';
+    return out;
+}
+
+static bool js_bridge_ends_with_newline( const char *text )
+{
+    size_t len;
+
+    if ( text == NULL )
+	return FALSE;
+
+    len = strlen( text );
+    if ( len == 0 )
+	return FALSE;
+
+    return text[len - 1] == '\n' || text[len - 1] == '\r';
+}
+
+static bool js_bridge_command( CHAR_DATA *ch, const char *command,
+			       const char *argument )
+{
+    char buffer[MAX_STRING_LENGTH];
+    const char *port_env = getenv( "CHAOS_JS_BRIDGE_PORT" );
+    int port = 4050;
+    int class_id = ch->class;
+    int tech_bits = 0;
+    int primal = 0;
+    int sockfd;
+    struct sockaddr_in addr;
+    char *cmd_esc;
+    char *arg_esc;
+    char *player_esc;
+    char *msg_decoded;
+    char *payload;
+    size_t payload_len;
+    size_t sent = 0;
+    ssize_t nread;
+    size_t used = 0;
+    char *line;
+    int room_vnum = ch->in_room ? ch->in_room->vnum : -1;
+    int trust = get_trust( ch );
+
+    if ( port_env != NULL && port_env[0] != '\0' )
+	port = atoi( port_env );
+
+    if ( port <= 0 )
+    {
+	send_to_char( "JS bridge disabled.\n\r", ch );
+	return TRUE;
+    }
+
+    sockfd = socket( AF_INET, SOCK_STREAM, 0 );
+    if ( sockfd < 0 )
+    {
+	send_to_char( "JS bridge socket error.\n\r", ch );
+	return TRUE;
+    }
+
+    memset( &addr, 0, sizeof( addr ) );
+    addr.sin_family = AF_INET;
+    addr.sin_port = htons( (unsigned short)port );
+    addr.sin_addr.s_addr = htonl( 0x7f000001 );
+
+    if ( connect( sockfd, (struct sockaddr *)&addr, sizeof( addr ) ) < 0 )
+    {
+	close( sockfd );
+	send_to_char( "JS bridge is not running.\n\r", ch );
+	return TRUE;
+    }
+
+    cmd_esc = js_bridge_escape( command );
+    arg_esc = js_bridge_escape( argument );
+    player_esc = js_bridge_escape( ch->name );
+    if ( cmd_esc == NULL || arg_esc == NULL || player_esc == NULL )
+    {
+	free( cmd_esc );
+	free( arg_esc );
+	free( player_esc );
+	close( sockfd );
+	send_to_char( "JS bridge out of memory.\n\r", ch );
+	return TRUE;
+    }
+
+    if ( !IS_NPC( ch ) && ch->pcdata != NULL )
+    {
+	tech_bits = ch->pcdata->powers[S_TECH];
+	primal = ch->pcdata->primal;
+    }
+
+    payload_len = strlen( cmd_esc ) + strlen( arg_esc ) + strlen( player_esc ) + 256;
+    payload = (char *)malloc( payload_len );
+    if ( payload == NULL )
+    {
+	free( cmd_esc );
+	free( arg_esc );
+	free( player_esc );
+	close( sockfd );
+	send_to_char( "JS bridge out of memory.\n\r", ch );
+	return TRUE;
+    }
+
+    snprintf( payload, payload_len,
+	"{\"command\":\"%s\",\"args\":\"%s\",\"player\":\"%s\",\"room\":%d,"
+	"\"trust\":%d,\"is_npc\":%d,\"class_id\":%d,\"tech_bits\":%d,"
+	"\"primal\":%d}\n",
+	cmd_esc, arg_esc, player_esc, room_vnum, trust, IS_NPC( ch ) ? 1 : 0,
+	class_id, tech_bits, primal );
+
+    while ( sent < strlen( payload ) )
+    {
+	ssize_t n = send( sockfd, payload + sent, strlen( payload ) - sent, 0 );
+	if ( n <= 0 )
+	{
+	    free( cmd_esc );
+	    free( arg_esc );
+	    free( player_esc );
+	    free( payload );
+	    close( sockfd );
+	    send_to_char( "JS bridge send failed.\n\r", ch );
+	    return TRUE;
+	}
+	sent += (size_t)n;
+    }
+
+    shutdown( sockfd, SHUT_WR );
+
+    while ( used < sizeof( buffer ) - 1 )
+    {
+	nread = recv( sockfd, buffer + used, sizeof( buffer ) - 1 - used, 0 );
+	if ( nread <= 0 )
+	    break;
+	used += (size_t)nread;
+	if ( memchr( buffer, '\n', used ) )
+	    break;
+    }
+    buffer[used] = '\0';
+    close( sockfd );
+
+    free( cmd_esc );
+    free( arg_esc );
+    free( player_esc );
+    free( payload );
+
+    if ( used == 0 )
+    {
+	send_to_char( "JS bridge returned no response.\n\r", ch );
+	return TRUE;
+    }
+
+    line = buffer;
+    if ( ( line = strchr( buffer, '\n' ) ) != NULL )
+	*line = '\0';
+    if ( ( line = strchr( buffer, '\r' ) ) != NULL )
+	*line = '\0';
+
+    if ( !strncmp( buffer, "OK ", 3 ) )
+    {
+	const char *msg = buffer + 3;
+	msg_decoded = js_bridge_unescape( msg );
+	if ( msg_decoded == NULL )
+	{
+	    send_to_char( "JS bridge out of memory.\n\r", ch );
+	    return TRUE;
+	}
+	if ( msg_decoded[0] != '\0' )
+	    send_to_char( msg_decoded, ch );
+	if ( !js_bridge_ends_with_newline( msg_decoded ) )
+	    send_to_char( "\n\r", ch );
+	free( msg_decoded );
+	return TRUE;
+    }
+
+    if ( !strncmp( buffer, "ERR ", 4 ) )
+    {
+	send_to_char( "JS error: ", ch );
+	msg_decoded = js_bridge_unescape( buffer + 4 );
+	if ( msg_decoded == NULL )
+	{
+	    send_to_char( "JS bridge out of memory.\n\r", ch );
+	    return TRUE;
+	}
+	send_to_char( msg_decoded, ch );
+	send_to_char( "\n\r", ch );
+	free( msg_decoded );
+	return TRUE;
+    }
+
+    if ( !strncmp( buffer, "NOHANDLER", 9 ) )
+    {
+	send_to_char( "JS: unknown command.\n\r", ch );
+	return TRUE;
+    }
+
+    msg_decoded = js_bridge_unescape( buffer );
+    if ( msg_decoded == NULL )
+    {
+	send_to_char( "JS bridge out of memory.\n\r", ch );
+	return TRUE;
+    }
+    send_to_char( msg_decoded, ch );
+    if ( !js_bridge_ends_with_newline( msg_decoded ) )
+	send_to_char( "\n\r", ch );
+    free( msg_decoded );
+    return TRUE;
 }
 
 

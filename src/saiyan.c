@@ -136,14 +136,8 @@ void do_technique( CHAR_DATA *ch, char *argument )
   }
 
   if ( argument[0] == '\0' )
-  { send_to_char( "\n\rSaiyans can learn the following techniques:\n", ch );
-    send_to_char( "Kiwave      Kibomb      Kibolt      Kiblast     Kiwall\n", ch );
-    send_to_char( "Kikouhou    Masenkou    Kamehameha  Solarflare  Ryuken\n", ch );
-    send_to_char( "Zanzouken   Kaiouken    Flight      Kisense     Battlesense\n", ch );
-    send_to_char( "Hawkeyes    Shunkanidou Kiaihou\n\r", ch );
-    send_to_char( "Enter 'technique <tech>' to learn one, i.e. 'technique kibolt'\n\r", ch );
-    send_to_char( "Enter 'technique learned' to see which battle skills you have mastered.\n\r", ch );
-    send_to_char( "Enter 'techinque cost' to see their costs in primal.\n\r", ch );
+  {
+    interpret( ch, "js:technique" );
     return;
   }
 
@@ -238,41 +232,13 @@ void do_technique( CHAR_DATA *ch, char *argument )
     sprintf( name, "Kiaihou" );
   }
   else if ( !str_cmp( argument, "cost" ) )
-  { send_to_char( "\n\rThese are the costs of developing Saiyan combat techniques, in primal.\n", ch );
-    send_to_char( "Ki Wave      50  Ki Bomb     50  Ki Bolt     50  Ki Blast    25  Ki Wall     75\n", ch );
-    send_to_char( "Kikouhou    100  Masenkou   125  Kamehameha 200  Solarflare 100  Ryuken     150\n", ch );
-    send_to_char( "Zanzouken   100  Kaiouken   200  Flight      50  Ki Sense   100  Bat. Sense  75\n", ch );
-    send_to_char( "ShunkanIdou 125  Hawkeyes    50  Kiaihou    200\n\r", ch );
+  {
+    interpret( ch, "js:technique cost" );
     return;
   }
   else if ( !str_cmp( argument, "learned" ) )
-  { send_to_char( "\n\r\n\rSaiyan battle techniques learned:\n", ch );
-    sprintf( buf, "Ki Wave    [%s]  Ki Bomb    [%s]  Ki Bolt    [%s]  Ki Blast  [%s]  Ki Wall    [%s]\n",
-	(IS_SET(ch->pcdata->powers[S_TECH], S_KIWAVE) ? yes : no),
-	(IS_SET(ch->pcdata->powers[S_TECH], S_KIBOMB) ? yes : no),
-	(IS_SET(ch->pcdata->powers[S_TECH], S_KIBOLT) ? yes : no),
-	(IS_SET(ch->pcdata->powers[S_TECH], S_KIBLAST) ? yes : no),
-	(IS_SET(ch->pcdata->powers[S_TECH], S_KIWALL) ? yes : no) );
-    send_to_char( buf, ch );
-    sprintf( buf, "Kikouhou   [%s]  Masenkouha [%s]  Kamehameha [%s]  Solarflar [%s]  Ryuken     [%s]\n",
-	(IS_SET(ch->pcdata->powers[S_TECH], S_KIKOUHOU) ? yes : no),
-	(IS_SET(ch->pcdata->powers[S_TECH], S_MASENKOUHA) ? yes : no),
-	(IS_SET(ch->pcdata->powers[S_TECH], S_KAMEHAMEHA) ? yes : no),
-	(IS_SET(ch->pcdata->powers[S_TECH], S_SOLARFIST) ? yes : no),
-	(IS_SET(ch->pcdata->powers[S_TECH], S_RYUKEN) ? yes : no) );
-    send_to_char( buf, ch );
-    sprintf( buf, "Zanzouken  [%s]  Kaiouken   [%s]  Flight     [%s]  Ki Sense  [%s]  Bat. Sense [%s]\n",
-	(IS_SET(ch->pcdata->powers[S_TECH], S_ZANZOUKEN) ? yes : no),
-	(IS_SET(ch->pcdata->powers[S_TECH], S_KAIOUKEN) ? yes : no),
-	(IS_SET(ch->pcdata->powers[S_TECH], S_FLIGHT) ? yes : no),
-	(IS_SET(ch->pcdata->powers[S_TECH], S_KISENSE) ? yes : no),
-	(IS_SET(ch->pcdata->powers[S_TECH], S_BATTLESENSE) ? yes : no) );
-    send_to_char( buf, ch );
-    sprintf( buf, "Shunkan I. [%s]  Hawkeyes   [%s]  Kiaihou    [%s]\n\r",
-	(IS_SET(ch->pcdata->powers[S_TECH], S_KIMOVE) ? yes : no),
-	(IS_SET(ch->pcdata->powers[S_TECH], S_HAWKEYES) ? yes : no),
-	(IS_SET(ch->pcdata->powers[S_TECH], S_KIAIHOU) ? yes : no) );
-    send_to_char( buf, ch ); 
+  {
+    interpret( ch, "js:technique learned" );
     return;
   }
   else

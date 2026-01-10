@@ -24,6 +24,31 @@ npm run mud:dev:watch
 npm run mud:prod:watch
 ```
 
+## JS command bridge
+
+Start the bridge server:
+
+```
+npm run mud:bridge
+```
+
+Bridge handlers live in `js/src/bridge/` (shared commands in
+`js/src/bridge/commands/`), and class logic lives under `js/src/classes/`.
+
+In-game, use `js:<command>` to route to the bridge. Example:
+
+```
+js:ping
+js:time
+js:whereami
+js:echo hello world
+js:technique
+js:technique cost
+js:technique learned
+```
+
+You can change the port via `CHAOS_JS_BRIDGE_PORT` (default 4050).
+
 ## Debug runs
 
 ```

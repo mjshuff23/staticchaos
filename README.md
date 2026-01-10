@@ -43,6 +43,28 @@ npm run mud:prod
 
 See `js/README.md` for wrapper/client details (including scripted logins).
 
+## JS command bridge
+
+Start the bridge server in another terminal:
+
+```
+npm run mud:bridge
+```
+
+Then use `js:<command>` in the MUD. Example:
+
+```
+js:ping
+js:time
+js:whereami
+js:echo hello world
+js:technique
+js:technique cost
+js:technique learned
+```
+
+The default bridge port is 4050; override with `CHAOS_JS_BRIDGE_PORT`.
+
 ## Debugging crashes
 
 ```
