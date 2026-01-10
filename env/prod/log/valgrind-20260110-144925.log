@@ -1,0 +1,6 @@
+==43738== Memcheck, a memory error detector
+==43738== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==43738== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==43738== Command: /home/yokito/staticchaos/src/chaosium 5000
+==43738== Parent PID: 10121
+==43738== 
