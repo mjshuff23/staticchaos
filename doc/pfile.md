@@ -1,3 +1,5 @@
+# Pfile
+
 Merc Release 2.2
 Wednesday 24 November 1993
 
@@ -6,7 +8,7 @@ Hatchet
 
 
 
-=== Player File Format
+## Player File Format
 
 Player files are ascii files.
 
@@ -69,7 +71,7 @@ continue loading.
 
 
 
-=== How to Add a New Char Field
+## How to Add a New Char Field
 
 (1) Add the field to the appropriate structure in 'merc.h'.
 
@@ -85,7 +87,7 @@ continue loading.
 
 
 
-=== How to Add a New Object Field
+## How to Add a New Object Field
 
 (1) Add the field to the appropriate structure in 'merc.h'.
 

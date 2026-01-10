@@ -1,3 +1,5 @@
+# Vnum
+
 Merc Release 2.2
 Wednesday 24 November 1993
 
@@ -9,7 +11,7 @@ Hatchet
 
 
 
-=== Vnum Assignments
+## Vnum Assignments
 
 00 limbo.are    20 catacomb.are 40 moria.are    60 haon.are     80
 01 smurf.are    21 hood.are     41 moria.are    61 haon.are     81 faceless.are

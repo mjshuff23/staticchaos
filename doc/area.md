@@ -1,3 +1,5 @@
+# Area
+
 Merc Release 2.2
 Wednesday 24 November 1993
 
@@ -5,7 +7,7 @@ Kahn
 Hatchet
 
 
-=== Acknowledgement
+## Acknowledgement
 
 This document contains information from 'database.doc', 'dbsup.doc', and
 'values.doc', part of the original Diku mud release and copyrighted by the
@@ -13,7 +15,7 @@ Diku folks.  See their 'license.doc'.
 
 
 
-=== Overview of Areas
+## Overview of Areas
 
 An area is one piece of the world.  Each area is defined in a separate file.
 All of our area files have the extension '.are', but you can call your area
@@ -35,7 +37,7 @@ balance between areas originally written by many different authors.
 
 
 
-=== Sections of an Area
+## Sections of an Area
 
 An area file contains the following sections:
 
@@ -62,7 +64,7 @@ respectively.  The #HELPS, #SHOPS, and #SPECIALS sections have new formats.
 
 
 
-=== Memory Usage
+## Memory Usage
 
 In order to simplify the code, the Merc server has a fixed maximum size on
 strings in the area database.  This size is defined at the beginning of 'db.c'
@@ -84,7 +86,7 @@ versus other Diku muds with the same quantity of areas.
 
 
 
-=== Data Types
+## Data Types
 
 All of the data in an area file (even the section headers) consists of a series
 of values.  Each value has a specific type.  The server parses the file by
@@ -144,7 +146,7 @@ adding the area into an existing set of areas.
 
 
 
-=== The #AREA section
+## The #AREA section
 
 The syntax of this section is:
 
@@ -161,7 +163,7 @@ original author of the area.  The last phrase is the name of the area.
 
 
 
-=== The #HELPS section
+## The #HELPS section
 
 The syntax of this section is:
 
@@ -191,7 +193,7 @@ strings, so that picturesque greeting screens may be used.
 
     
 
-=== The #MOBILES section
+## The #MOBILES section
 
 The syntax of this section is:
 
@@ -246,7 +248,7 @@ The 'sex' value may be 0 for neutral, 1 for male, and 2 for female.
 
 
 
-=== The #OBJECTS section
+## The #OBJECTS section
 
 The syntax of this section is:
 
@@ -316,7 +318,7 @@ An object may have an unlimited number of 'E' and 'A' sections.
 
 
 
-=== The #ROOMS section
+## The #ROOMS section
 
 The syntax of this section is:
 
@@ -389,7 +391,7 @@ The 'S' at the end marks the end of the room.  It is not optional.
 
 
 
-=== The #RESETS section
+## The #RESETS section
 
 The syntax of this section is:
 
@@ -516,7 +518,7 @@ Any line (except an 'S' line) may have a comment at the end.
 
 
 
-=== The #SHOPS section
+## The #SHOPS section
 
 The syntax of this section is:
 
@@ -562,7 +564,7 @@ or it doesn't already have an identical object.  These items do not replenish.
 
 
 
-=== The #SPECIALS section
+## The #SPECIALS section
 
 The syntax of this section is:
 
@@ -610,7 +612,7 @@ To add a new special function:
 
 
 
-=== The #$ section
+## The #$ section
 
 The syntax of this section is:
 
@@ -623,7 +625,7 @@ with a '#$'.
 
 
 
-=== Meaning of Value Numbers by Item Type
+## Meaning of Value Numbers by Item Type
 
 In the values below, 'sn' is a spell, indexed by slot number.  A zero or
 negative sn means 'no spell'.
@@ -763,7 +765,7 @@ negative sn means 'no spell'.
 
 
 
-=== Slot Numbers
+## Slot Numbers
 
 These slot numbers are used in magical objects to indicate spells.  Save files
 do not use slot numbers; they use names instead.
@@ -844,7 +846,7 @@ do not use slot numbers; they use names instead.
 
 
 
-=== Booting and Testing Areas
+## Booting and Testing Areas
 
 When the Merc server starts, it reads a file named 'area.lst' in the current
 directory.  This file contains a list of all the area files to read in.  To add
@@ -880,7 +882,7 @@ checker.
 
 
 
-=== Compressing the Area Files
+## Compressing the Area Files
 
 It is possible to run Merc with a single combined, compressed area file.
 Here's how to do this on a Unix system:

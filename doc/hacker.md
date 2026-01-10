@@ -1,3 +1,5 @@
+# Hacker
+
 Merc Release 2.2
 Wednesday 24 November 1993
 
@@ -6,7 +8,7 @@ Hatchet
 
 
 
-=== 'I'm running a Mud so I can learn C programming!'
+## 'I'm running a Mud so I can learn C programming!'
 
 Yeah, right.
 
@@ -19,7 +21,7 @@ own thinking, learning and experimentation.
 
 
 
-=== How to Learn in the First Place
+## How to Learn in the First Place
 
 (1) Play with something.
 (2) Read the documentation on it.
@@ -45,7 +47,7 @@ through the two-step learning cycle MANY times to master it.
 
 
 
-=== The Environment
+## The Environment
 
 Computer: the big or little box that you're using to run Merc.  Computers come
     from a _manufacturer_ and have a _model_ name.  Here is a list of common
@@ -116,7 +118,7 @@ you need to find out.
 
 
 
-=== Basic Unix Tools
+## Basic Unix Tools
 
 'man'	-- gives you online manual pages
 
@@ -146,7 +148,7 @@ to change gears.
 
 
 
-=== Debugging: Theory
+## Debugging: Theory
 
 Debugging is a science.  You formulate a hypothesis, make predictions based on
 the hypothesis, run the program and provide it experimental input, observe its
@@ -208,7 +210,7 @@ this?'
 
 
 
-=== Debugging: Tools
+## Debugging: Tools
 
 When a Unix process accesses an invalid memory location, or (more rarely)
 executes an illegal instruction, or (even more rarely) something else goes
@@ -237,7 +239,7 @@ If you have access to a program named 'Purify' ... learn how to use it.
 
 
 
-=== Profiling
+## Profiling
 
 Here is how to profile a program:
 
@@ -273,7 +275,7 @@ Unix system has 'prof'.  Only some systems have 'gprof'.
 
 
 
-=== Books for Serious Programmers
+## Books for Serious Programmers
 
 Out of all the thousands of books out there, three stand out:
 

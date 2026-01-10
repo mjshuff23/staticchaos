@@ -1,3 +1,5 @@
+# Skill
+
 Merc Release 2.2
 Wednesday 24 November 1993
 
@@ -5,7 +7,7 @@ Kahn
 Hatchet
 
 
-=== Skills and Spells
+## Skills and Spells
 
 The central organizing table for skills and spells is skill_table, an array
 of type 'struct skill_type' (merc.h), and is defined in const.c.  Skills
@@ -100,7 +102,7 @@ The fields of skill_table are:
 
 
 
-=== Examples
+## Examples
 
     {
 	"fireball",		{ 15, 37, 37, 37 },
@@ -151,7 +153,7 @@ The fields of skill_table are:
 
 
 
-=== Indexing skill_table
+## Indexing skill_table
 
 'skill_table' is indexed by an 'sn' or 'gsn'.  The function 'skill_lookup'
 takes a string and returns the appropriate sn, or -1 if the name is not found.
@@ -179,7 +181,7 @@ original Diku spell numbers.]
 
 
 
-=== The spell driver
+## The spell driver
 
 The spell driver level is the first half of 'magic.c'.  It consists of
 'do_cast' for the 'cast' command and 'obj_cast_spell' which is called from
@@ -201,7 +203,7 @@ driver).
 
 
 
-=== Adding a new spell
+## Adding a new spell
 
 (1) Find a free slot number.  Make sure it's not already used in 'const.c'.
     Merc reserves slot numbers below 500 for future expansion.  We promise we
@@ -223,7 +225,7 @@ driver).
 
 
 
-=== Adding a new skill
+## Adding a new skill
 
 For skills, only some of the fields are relevant: 'name', 'skill_level',
 'beats', 'pgsn', 'noun_damage', and 'msg_off' are used; 'slot', 'min_mana',

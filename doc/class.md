@@ -1,3 +1,5 @@
+# Class
+
 Merc Release 2.2
 Wednesday 24 November 1993
 
@@ -5,7 +7,7 @@ Kahn
 Hatchet
 
 
-=== Classes
+## Classes
 
 The central organizing table for classes is class_table, which is an array of
 type 'struct class_type' (defined in 'merc.h') and is defined in 'const.c'.
@@ -57,7 +59,7 @@ The fields of class_table are:
 
 
 
-=== Other class-specific tables
+## Other class-specific tables
 
 (1) In const.c, skill_table contains the level needed for each class to use a
     particular skill or spell.  If the class cannot use that skill or spell,
@@ -75,7 +77,7 @@ The fields of class_table are:
 
 
 
-=== Adding a new class
+## Adding a new class
 
 Here's how to add a new class:
 
@@ -96,7 +98,7 @@ Here's how to add a new class:
 
 
 
-=== Immortal Levels
+## Immortal Levels
 
 Here are the immortal levels:
 

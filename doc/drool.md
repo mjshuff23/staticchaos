@@ -1,3 +1,5 @@
+# Drool
+
 [Note from Furey: the following ideas were e-mailed to us by the Drool
 Company.  We don't have time to do anything with them ... but if you do,
 feel free!  Just please acknowledge the source.  Thanks Droolers!]

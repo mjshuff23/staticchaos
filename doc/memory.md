@@ -1,3 +1,5 @@
+# Memory
+
 Merc Release 2.2
 Wednesday 24 November 1993
 
@@ -6,7 +8,7 @@ Hatchet
 
 
 
-=== Memory Management Overview
+## Memory Management Overview
 
 Merc contains the following memory regions: run file memory; stack; string
 space; and permanent space.  The approximate sizes of these regions are:
@@ -19,7 +21,7 @@ space; and permanent space.  The approximate sizes of these regions are:
 
 
 
-=== Run File Memory
+## Run File Memory
 
 The merc executable file has about 200k of code, 4k of initialized data, and
 32k of uninitialized data.  This was measured on an MsDos system using djgpp
@@ -30,7 +32,7 @@ to change it.
 
 
 
-=== Stack
+## Stack
 
 We have never measured stack usage, but estimate it's somewhere between 10k and
 30k.  Merc has a wide, shallow calling tree.  The largest consumers of stack
@@ -42,7 +44,7 @@ this range have an option to do this.
 
 
 
-=== String Space and fread_string()
+## String Space and fread_string()
 
 At boot time, the function fread_string() is used to read in ~-delimited
 strings from area files.  These strings are stored into string space.  After
@@ -100,7 +102,7 @@ will tell you when you've run out.
 
 
 
-=== Permanent space
+## Permanent space
 
 This space holds everything else: all of the area file non-string data; all of
 the created mobiles and objects; descriptor and player character structures;

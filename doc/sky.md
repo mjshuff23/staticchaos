@@ -1,3 +1,5 @@
+# Sky
+
 Merc Release 2.2
 Wednesday 24 November 1993
 
@@ -5,7 +7,7 @@ Kahn
 Hatchet
 
 
-=== Blue Sky
+## Blue Sky
 
 It's blue sky time!  These are features we'd like to have in Merc.  We haven't
 designed them, haven't coded them, haven't scheduled them.  They won't be in
@@ -15,14 +17,14 @@ If you code any of these features please send us a copy.
 
 
 
-=== Symbolic Names in Numeric Fields.
+## Symbolic Names in Numeric Fields.
 
 We'd like 'fread_number' to understand words such as AFF_SANCTUARY and
 translate them into the appropriate numbers.
 
 
 
-=== New Comm Drivers
+## New Comm Drivers
 
 Right now comm.c understands only Berkeley Unix networking.  We'd like comm
 drivers for the following operating systems:
@@ -34,7 +36,7 @@ drivers for the following operating systems:
 
 
 
-=== Randomization on Area Loading
+## Randomization on Area Loading
 
 We'd like to see items loaded with random spells, placed on random mobs, so
 that players have to explore more instead of just having a '#blue' macro that
@@ -42,7 +44,7 @@ goes to the queen spider and kills her for a blue potion.
 
 
 
-=== Mobs Using Magical Items
+## Mobs Using Magical Items
 
 'Watch, out Jim!  That orc has a wand of fireballs!'
 
@@ -51,7 +53,7 @@ goes to the queen spider and kills her for a blue potion.
 
 
 
-=== An Arena
+## An Arena
 
 A room flag where players can attack players without getting a killer flag, can
 cast offensive spells at players, and death carries no xp or eq loss.  Wanna
@@ -60,26 +62,26 @@ have one loaded in the arena!
 
 
 
-=== Area Logging
+## Area Logging
 
 So you can tell if everyone's going to the same area over and over and make the
 area harder.
 
 
 
-=== Merc-to-Merc Portals
+## Merc-to-Merc Portals
 
 The save files are Ascii -- just shoot it over a server-to-server connection.
 
 
 
-=== Protection Against Multi-Playing
+## Protection Against Multi-Playing
 
 RFC 1413 is a good protocol but no one implements it.  :(
 
 
 
-=== Built-in Client
+## Built-in Client
 
 We'd like to incorporate EVERYTHING in Tintin 3 into the server (except for
 multiple sessions -- but even multiple sessions would be good for the MS-DOS
@@ -88,6 +90,6 @@ them, and give everyone the same advantage.
 
 
 
-=== 'Retire' Command
+## 'Retire' Command
 
 For those 36th level players who keep hanging around!

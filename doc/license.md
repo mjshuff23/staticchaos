@@ -1,3 +1,5 @@
+# License
+
 Merc Release 2.2
 Wednesday 24 November 1993
 
@@ -6,7 +8,7 @@ Hatchet
 
 
 
-=== Copyright and License Terms
+## Copyright and License Terms
 
 Diku Mud is copyright (C) 1990, 1991 by Sebastian Hammer, Michael Seifert,
 Hans Henrik St{rfeldt, Tom Madsen, and Katja Nyboe.  Their license agreement

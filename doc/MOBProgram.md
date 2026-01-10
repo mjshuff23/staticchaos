@@ -1,10 +1,12 @@
+# MOBProgram
+
 Merc release 2.2
 Wednesday 24 November 1993
 
 N'atas-Ha natasha@gs118.sp.cs.cmu.edu
 Kahn
 
-=== MOBprograms
+## MOBprograms
 
 	MOBprograms are a way to make your mobiles more interesting.  This
 basic version has enough to get things going, and should be quite readable and
@@ -742,7 +744,7 @@ MERC Industries
 
 
 
-===================CUT HERE FOR QUICK REFERENCE SHEET========================
+## CUT HERE FOR QUICK REFERENCE SHEET========================
 
     MOBprogram quick reference to triggers/variables/ifchecks/mobcommands
 
@@ -802,7 +804,7 @@ MPKILL		<victim>		MPPURGE		[argument]
 MPGOTO		<dest>			MPAT		<dest> <command> 
 MPTRANSFER	<dest> [location]	MPFORCE		<victim> <command>
 
-======================END OF QUICK REFERENCE SHEET===========================
+## END OF QUICK REFERENCE SHEET===========================
 
 ++++++++++++++++++++++++++++++++EXAMPLE++++++++++++++++++++++++++++++++++++++
 

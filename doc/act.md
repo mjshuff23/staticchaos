@@ -1,3 +1,5 @@
+# Act
+
 Merc Release 2.2
 Wednesday 24 November 1993
 
@@ -5,7 +7,7 @@ Kahn
 Hatchet
 
 
-=== The function 'send_to_char'
+## The function 'send_to_char'
 
 The central output functions are 'send_to_char' and 'act'.  Of the two,
 'send_to_char' is much simpler, faster, and less powerful.
@@ -18,7 +20,7 @@ The string 'txt' is sent to the character 'ch'.  That's all there is to it.
 
 
 
-=== The function 'act'
+## The function 'act'
 
 The function 'act' is much hairier.  The following section is a precise
 reference guide.  If you don't already have some notion of what 'act' format
@@ -79,7 +81,7 @@ The first character of the output string is always capitalized.
 
 
 
-=== The '$' sequences
+## The '$' sequences
 
 Here are all the '$' sequences supported by 'act':
 

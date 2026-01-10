@@ -1,3 +1,5 @@
+# Port
+
 Merc Release 2.2
 Wednesday 24 November 1993
 
@@ -6,7 +8,7 @@ Hatchet
 
 
 
-=== Platforms
+## Platforms
 
 --- MERC 2.2
 
@@ -50,7 +52,7 @@ new warnings (usually we never hear from the user again).
 
 
 
-=== Requirements
+## Requirements
 
 The hardware requirements are essentially: two megabytes of memory; five
 megabytes of disk space; any 32-bit processor; 50 kilobits per second network
@@ -75,7 +77,7 @@ another.
 
 
 
-=== MsDos Single-User Version
+## MsDos Single-User Version
 
 Merc runs in single-user mode (console only) on MsDos and Macintosh computers.
 The MsDos version is built with DJ Delorie's 'djgpp' port of the Gnu C Compiler
@@ -90,7 +92,7 @@ The commands to build and run Merc on MsDos are:
 
 
 
-=== Macintosh Single-User Version
+## Macintosh Single-User Version
 
 The Macintosh changes were contributed by Oleg Etiffin.  It is built with
 Think-C 5.0.4 and requires 4 megabytes of system memory.  You have to define
@@ -98,7 +100,7 @@ the symbol 'macintosh' (if not already defined).
 
 
 
-=== Performance
+## Performance
 
 All this measured on a Sun 4 with SunOS 4.1.2.
 

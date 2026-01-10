@@ -1,3 +1,5 @@
+# New
+
 Merc Release 2.2
 Wednesday 24 November 1993
 
@@ -5,7 +7,7 @@ Kahn
 Hatchet
 
 
-=== What's new in 2.2
+## What's new in 2.2
 
 Many of the changes from 2.1 to 2.2 were contributed by the MERC imps out
 on the net as well as from our playtesters.  Kudos to them!
@@ -48,7 +50,7 @@ More accurate consider command.
 
 Other various tweeks, additions and bugfixes.
 
-=== What's new in 2.0
+## What's new in 2.0
 
 Many of the changes from 2.0 Beta to 2.0 were contributed by our beta testers.
 See 'contrib.txt' for acknowledgements.
@@ -91,7 +93,7 @@ corpse looting is punished with a PLR_THIEF flag.
 
 
 
-=== What was new in 2.0 Beta
+## What was new in 2.0 Beta
 
 The 'lib' directory is gone.  Most of the *.txt files have been moved into
 'help.are' as 'help' entries.

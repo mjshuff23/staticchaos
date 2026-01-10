@@ -1,3 +1,5 @@
+# Sites
+
 Merc Release 2.2
 Wednesday 24 November 1993
 
@@ -6,7 +8,7 @@ Hatchet
 
 
 
-=== Merc-Based Sites
+## Merc-Based Sites
 
 The following muds are based on Merc code.  The implementors of these muds
 add their own changes and features, so don't expect all these muds to look

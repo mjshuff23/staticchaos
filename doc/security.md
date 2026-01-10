@@ -1,3 +1,5 @@
+# Security
+
 Merc Release 2.2
 Wednesday 24 November 1993
 
@@ -6,7 +8,7 @@ Hatchet
 
 
 
-=== Security Features
+## Security Features
 
 The 'log' command logs any character; it's meant for test characters as well as
 trouble-making players.  Many immortal commands are logged automatically; this
@@ -38,7 +40,7 @@ The server is protected against input spamming.
 
 
 
-=== Game Balance Features
+## Game Balance Features
 
 There are level limits on grouping.
 
@@ -87,7 +89,7 @@ corpse looting is punished with a PLR_THIEF flag.
 
 
 
-=== Integrity Features
+## Integrity Features
 
 Merc compiles with no errors and no warnings, with 'gcc -Wall', on a large
 number of platforms.  If the server crashes, and you've changed the code at

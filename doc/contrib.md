@@ -1,3 +1,5 @@
+# Contrib
+
 Merc Release 2.2
 Wednesday 24 November 1993
 
@@ -6,7 +8,7 @@ Hatchet
 
 
 
-=== Disclaimer
+## Disclaimer
 
 If your name isn't in here, and you think it should be; or if your name IS
 in here and you prefer a different name or anonymity; then just e-mail us
@@ -14,7 +16,7 @@ and we'll fix it in the next release.
 
 
 
-=== Contribution Policy
+## Contribution Policy
 
 We welcome contributions to the Merc Mailing List at merc@kpc.com.
 
@@ -34,14 +36,14 @@ Merc we'd appreciate e-mail from you.
 
 
 
-=== Mailing List
+## Mailing List
 
 Thanks to Zrin for administering the Merc mailing list.  You can join the list
 by sending e-mail to merc-request@kpc.com.
 
 
 
-=== The First Contributions
+## The First Contributions
 
 Merc Mud is based on Diku Mud, with Copper and Alfa enhancements.
 
@@ -56,7 +58,7 @@ and grape.ecs.clarkson.edu.
 
 
 
-=== New Area Contributions
+## New Area Contributions
 
 --- Merc 2.2
 
@@ -96,7 +98,7 @@ haven't taken any yet, we appreciate having 2 megabytes of areas to draw on!
 
 
 
-=== Code and Idea Contributions
+## Code and Idea Contributions
 
 N'atas-Ha and Blackstar contributed on the pager.
 
@@ -117,7 +119,7 @@ which we've included here as 'drool.txt'.
 
 
 
-=== Porting Contributions
+## Porting Contributions
 
 --- MERC 2.2
 
@@ -154,7 +156,7 @@ Oleg Etiffin contributed the Macintosh port.
 
 
 
-=== Bug Reports and Bug Fixes
+## Bug Reports and Bug Fixes
 
 --- MERC 2.2
 

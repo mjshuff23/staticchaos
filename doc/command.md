@@ -1,3 +1,5 @@
+# Command
+
 Merc Release 2.2
 Wednesday 24 November 1993
 
@@ -5,7 +7,7 @@ Kahn
 Hatchet
 
 
-=== Commands
+## Commands
 
 The central organizing table for skills and spells is cmd_table, an array
 of type 'struct cmd_type', and is defined in 'interp.c'.
@@ -40,7 +42,7 @@ The fields of cmd_table are:
 
 
 
-=== How to Add a Command
+## How to Add a Command
 
 (1) Add a line for the command in 'cmd_table' in 'interp.c'.
 
@@ -58,7 +60,7 @@ That's ALL there is to it!
 
 
 
-=== Social Commands
+## Social Commands
 
 Social commands add to the atmosphere of the game.  The social commands are
 contained in 'social_table' in 'interp.c'.  The fields of this table are:
@@ -105,7 +107,7 @@ when arguments are present.
 
 
 
-=== How to Add a Social Command
+## How to Add a Social Command
 
 (1) Write a new section into 'social_table' in 'interp.c' with the eight
     messages in it.  The sections need not be alphabetized.

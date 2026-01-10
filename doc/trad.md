@@ -1,3 +1,5 @@
+# Trad
+
 Merc Release 2.2
 Wednesday 24 November 1993
 
@@ -5,7 +7,7 @@ Kahn
 Hatchet
 
 
-=== Compiling with traditional C
+## Compiling with traditional C
 
 Merc is written in Ansi Standard C and uses several features not found in
 traditional C compilers:
@@ -20,7 +22,7 @@ possible to accommodate the deficiencies of some old non-ansi C compilers.
 
 
 
-=== How to tell if you have traditional C or Ansi C
+## How to tell if you have traditional C or Ansi C
 
 If your C Compiler is 'gcc', then it is Ansi C, and you don't need to know
 anything about traditional C.
@@ -39,7 +41,7 @@ a mud to 'learn about programming' ...
 
 
 
-=== How to compile with traditional C
+## How to compile with traditional C
 
 (1) Start with a clean copy of the release in an experimental directory.  Step
     (3) of this procedure will *irreversibly* change the source.
