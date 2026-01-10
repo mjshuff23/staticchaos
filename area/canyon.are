@@ -438,9 +438,9 @@ A dark ring which seems to absorb all the light around it lies here.~
 0 0 0 0
 5 100000 0
 A
-4 1
-A
 3 1
+A
+4 1
 #9202
 breastplate stoney breast plate~
 a stoney breastplate~
@@ -500,9 +500,9 @@ A lightning bolt fashioned into a sword spits sparks here.~
 0 6 3 3
 10 100000 0
 A
-19 2
-A
 18 -1
+A
+19 2
 #9208
 shield electric~
 an electric shield~
@@ -512,9 +512,9 @@ A shield made entirely of energy buzzes here.~
 11 0 0 0
 8 1000000 0
 A
-5 1
-A
 1 -1
+A
+5 1
 #9209
 girth icy~
 an icy girth~
@@ -534,9 +534,9 @@ A cloak fashioned from a small magical waterfall is here.~
 10 0 0 0
 6 100000 0
 A
-18 -2
-A
 12 25
+A
+18 -2
 #9211
 amulet elemental~
 an elemental amulet~
@@ -566,9 +566,9 @@ A pair of platinum arm bands, once worn by the Cyclops, lie here.~
 9 0 0 0
 4 10000 0
 A
-4 -2
-A
 1 1
+A
+4 -2
 #9214
 legbands platinum bands~
 some platinum leg bands~
@@ -578,9 +578,9 @@ A pair of platinum leg bands, once worn by the Cyclops, lie here.~
 9 0 0 0
 4 10000 0
 A
-3 -2
-A
 2 1
+A
+3 -2
 #9215
 wand~
 elemental wand of fire~
@@ -678,9 +678,9 @@ A lance of blue flame burns the ground around it.~
 0 2 15 3
 14 5000 0
 A
-18 2
-A
 13 -20
+A
+18 2
 #9227
 icicle dagger ice~
 an icicle~
@@ -690,9 +690,9 @@ A glowing icicle dagger lies here amid a patch of frost.~
 0 7 3 11
 1 19000 0
 A
-1 -1
-A
 19 2
+A
+1 -1
 #9228
 avalanche~
 the Avalanche~
@@ -712,9 +712,9 @@ A chain with a star on the end lies here.~
 0 6 3 11
 11 8200 0
 A
-17 -3
-A
 23 -5
+A
+17 -3
 #9230
 shock whip~
 the Shock Whip~
@@ -724,9 +724,9 @@ A whip hums innocently too itself.~
 0 4 4 2
 10 10000 0
 A
-1 -2
-A
 19 3
+A
+1 -2
 #9231
 elixir anti~
 anti-cyclops elixir~
@@ -780,14 +780,14 @@ east around the mountain.
 ~
 92 0 5
 E
-bodies body dead~
-They look as if their necks have been broken and their flesh, chewed.
-~
-E
 heaps stones tombs~
 You are sure glad that YOU aren't under one of those piles!
 Many of the tombstones have the same name on them, 'Raff'.  He must come
 here a lot.
+~
+E
+bodies body dead~
+They look as if their necks have been broken and their flesh, chewed.
 ~
 D4
 ~
