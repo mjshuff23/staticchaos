@@ -18,7 +18,10 @@ NOTES_ROOT="${ENV_ROOT}/notes"
 LOG_ROOT="${ENV_ROOT}/log"
 
 if [[ -z "${PORT_ARG}" ]]; then
-  if [[ "${ENV_NAME}" == "prod" ]]; then
+  PORT_ENV="${PORT:-}"
+  if [[ -n "${PORT_ENV}" ]]; then
+    PORT_ARG="${PORT_ENV}"
+  elif [[ "${ENV_NAME}" == "prod" ]]; then
     PORT_ARG="5000"
   else
     PORT_ARG="4000"

@@ -61,6 +61,29 @@ Compose also starts the JS bridge service, so `js:` commands work out of the box
 The containers expose ports 4000 (dev), 5000 (prod), and 4050 (bridge).
 Data under `env/dev` and `env/prod` is bind-mounted so changes persist on your host.
 
+## Deploy on Railway
+
+The easiest cloud setup for this repo is a single Railway service using the root
+`Dockerfile`.
+
+1. Create a new Railway project from this GitHub repo.
+2. Deploy the root service with the default `Dockerfile`.
+3. Set `PORT` only if you want to force a specific port. If unset, Railway
+   provides one automatically and the launcher now honors it.
+4. Keep the start command empty so Railway uses the image entrypoint and default
+   command (`prod` on the Railway-provided port when `PORT` is set).
+5. Expose the service with Railway TCP proxying, since the MUD server speaks raw
+   TCP rather than HTTP.
+
+Notes:
+
+- Railway should run the production world, not `dev`.
+- Browser clients still cannot connect directly to raw TCP. For a portfolio UI,
+  add a small WebSocket gateway in front of the MUD and have the page connect to
+  that gateway.
+- If you want persistent runtime data across redeploys, attach a Railway volume
+  and mount it over `/opt/staticchaos/env/prod`.
+
 ## JS command bridge
 
 Start the bridge server in another terminal:
