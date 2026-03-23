@@ -9,6 +9,10 @@ const listenPort = Number.parseInt(process.env.PORT || process.env.CHAOS_WS_PORT
 const listenHost = process.env.CHAOS_WS_HOST || '0.0.0.0';
 const mudHost = process.env.CHAOS_MUD_HOST || '127.0.0.1';
 const mudPort = Number.parseInt(process.env.CHAOS_MUD_PORT || '', 10) || 5000;
+const wsHeartbeatMs =
+  Number.parseInt(process.env.CHAOS_WS_HEARTBEAT_MS || '', 10) || 30_000;
+const idleTimeoutMs =
+  Number.parseInt(process.env.CHAOS_WS_IDLE_TIMEOUT_MS || '', 10) || 10 * 60_000;
 const allowedOrigins = new Set(
   (process.env.CHAOS_WS_ALLOWED_ORIGINS || '')
     .split(',')
@@ -43,6 +47,27 @@ const wss = new WebSocketServer({
 wss.on('connection', (ws, req) => {
   const remoteAddress = req.socket.remoteAddress || 'unknown';
   const tcpSocket = net.createConnection({ host: mudHost, port: mudPort });
+  let lastActivityAt = Date.now();
+  let heartbeatInterval: NodeJS.Timeout | null = null;
+  let idleCheckInterval: NodeJS.Timeout | null = null;
+  let awaitingPong = false;
+
+  const markActivity = () => {
+    lastActivityAt = Date.now();
+    awaitingPong = false;
+  };
+
+  const cleanupTimers = () => {
+    if (heartbeatInterval) {
+      clearInterval(heartbeatInterval);
+      heartbeatInterval = null;
+    }
+
+    if (idleCheckInterval) {
+      clearInterval(idleCheckInterval);
+      idleCheckInterval = null;
+    }
+  };
 
   tcpSocket.setKeepAlive(true, 30_000);
   tcpSocket.setNoDelay(true);
@@ -52,18 +77,21 @@ wss.on('connection', (ws, req) => {
   });
 
   tcpSocket.on('data', (chunk: Buffer) => {
+    markActivity();
     if (ws.readyState === ws.OPEN) {
       ws.send(chunk, { binary: true });
     }
   });
 
   tcpSocket.on('end', () => {
+    cleanupTimers();
     if (ws.readyState === ws.OPEN) {
       ws.close(1000, 'MUD connection closed');
     }
   });
 
   tcpSocket.on('error', (err: Error) => {
+    cleanupTimers();
     console.error(`tcp error from ${remoteAddress}: ${err.message}`);
     if (ws.readyState === ws.OPEN) {
       ws.close(1011, 'TCP proxy error');
@@ -71,6 +99,7 @@ wss.on('connection', (ws, req) => {
   });
 
   ws.on('message', (data: RawData) => {
+    markActivity();
     if (tcpSocket.destroyed) {
       return;
     }
@@ -92,15 +121,49 @@ wss.on('connection', (ws, req) => {
 
   });
 
+  ws.on('pong', () => {
+    markActivity();
+  });
+
   ws.on('close', () => {
+    cleanupTimers();
     tcpSocket.end();
     tcpSocket.destroy();
   });
 
   ws.on('error', (err: Error) => {
+    cleanupTimers();
     console.error(`ws error from ${remoteAddress}: ${err.message}`);
     tcpSocket.destroy();
   });
+
+  heartbeatInterval = setInterval(() => {
+    if (ws.readyState !== ws.OPEN) {
+      return;
+    }
+
+    if (awaitingPong) {
+      console.warn(`ws heartbeat timeout from ${remoteAddress}`);
+      ws.close(1001, 'WebSocket heartbeat timeout');
+      return;
+    }
+
+    awaitingPong = true;
+    ws.ping();
+  }, wsHeartbeatMs);
+
+  idleCheckInterval = setInterval(() => {
+    if (ws.readyState !== ws.OPEN) {
+      return;
+    }
+
+    if (Date.now() - lastActivityAt < idleTimeoutMs) {
+      return;
+    }
+
+    console.log(`closing idle ws session from ${remoteAddress} after ${idleTimeoutMs}ms`);
+    ws.close(1001, 'Session idle timeout');
+  }, Math.min(wsHeartbeatMs, 60_000));
 });
 
 server.on('upgrade', (req, socket, head) => {
@@ -122,5 +185,7 @@ server.on('upgrade', (req, socket, head) => {
 });
 
 server.listen(listenPort, listenHost, () => {
-  console.log(`WS gateway listening on ${listenHost}:${listenPort}, proxying to ${mudHost}:${mudPort}`);
+  console.log(
+    `WS gateway listening on ${listenHost}:${listenPort}, proxying to ${mudHost}:${mudPort} (heartbeat=${wsHeartbeatMs}ms idleTimeout=${idleTimeoutMs}ms)`
+  );
 });
