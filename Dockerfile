@@ -15,4 +15,4 @@ RUN chmod +x scripts/run-env.sh scripts/run-dev.sh scripts/run-prod.sh \
 EXPOSE 4000 5000
 
 ENTRYPOINT ["./scripts/run-env.sh"]
-CMD ["dev", "4000"]
+CMD ["prod", "5000"]
