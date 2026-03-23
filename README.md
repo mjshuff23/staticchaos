@@ -84,6 +84,43 @@ Notes:
 - If you want persistent runtime data across redeploys, attach a Railway volume
   and mount it over `/opt/staticchaos/env/prod`.
 
+## Browser gateway
+
+Browsers cannot connect directly to the raw TCP MUD socket. For a portfolio UI,
+run the WebSocket gateway in this repo as a separate service.
+
+Local run:
+
+```
+npm run mud:ws-gateway
+```
+
+Local Docker Compose:
+
+```
+docker compose up mud-prod mud-web-gateway
+```
+
+Gateway environment variables:
+
+- `PORT` or `CHAOS_WS_PORT`: HTTP/WebSocket listen port. Defaults to `8080`.
+- `CHAOS_MUD_HOST`: target MUD host. Defaults to `127.0.0.1`.
+- `CHAOS_MUD_PORT`: target MUD port. Defaults to `5000`.
+- `CHAOS_WS_ALLOWED_ORIGINS`: optional comma-separated allowed browser origins.
+  Leave unset to allow all origins during initial testing.
+
+Railway setup:
+
+1. Create a second service from this same repo.
+2. In that new service, set the Dockerfile path to `Dockerfile.gateway`.
+3. Leave the start command empty.
+4. Set `CHAOS_MUD_HOST=staticchaos.railway.internal`.
+5. Set `CHAOS_MUD_PORT=5000`.
+6. Generate a normal Railway domain for the gateway service.
+7. Connect your frontend to `wss://<gateway-domain>/ws`.
+
+The gateway also exposes `/health`, which is useful for Railway health checks.
+
 ## JS command bridge
 
 Start the bridge server in another terminal:

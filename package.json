@@ -13,6 +13,7 @@
     "mud:prod": "npm run build -- --pretty false && node dist/mud.js start prod",
     "mud:client": "npm run build -- --pretty false && node dist/mud-client.js",
     "mud:bridge": "npm run build -- --pretty false && node dist/bridge.js",
+    "mud:ws-gateway": "npm run build -- --pretty false && node dist/ws-gateway.js",
     "mud:dev:watch": "npm run build -- --pretty false && node dist/mud-watch.js dev",
     "mud:prod:watch": "npm run build -- --pretty false && node dist/mud-watch.js prod",
     "docker:build": "docker compose build",
@@ -34,6 +35,10 @@
   "homepage": "https://github.com/mjshuff23/staticchaos#readme",
   "devDependencies": {
     "@types/node": "^25.0.6",
+    "@types/ws": "^8.18.1",
     "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "ws": "^8.20.0"
   }
 }

@@ -31,3 +31,15 @@ services:
     environment:
       CHAOS_JS_BRIDGE_HOST: mud-bridge
       CHAOS_JS_BRIDGE_PORT: "4050"
+
+  mud-web-gateway:
+    build:
+      context: .
+      dockerfile: Dockerfile.gateway
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mud-prod
+    environment:
+      CHAOS_MUD_HOST: mud-prod
+      CHAOS_MUD_PORT: "5000"

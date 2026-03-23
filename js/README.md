@@ -49,6 +49,34 @@ js:technique learned
 
 You can change the port via `CHAOS_JS_BRIDGE_PORT` (default 4050).
 
+## WebSocket gateway
+
+The browser gateway exposes an HTTP/WebSocket service and proxies traffic to the
+raw TCP MUD server.
+
+```
+npm run mud:ws-gateway
+```
+
+Environment variables:
+
+- `PORT` or `CHAOS_WS_PORT`: listen port (default `8080`)
+- `CHAOS_MUD_HOST`: target MUD host (default `127.0.0.1`)
+- `CHAOS_MUD_PORT`: target MUD port (default `5000`)
+- `CHAOS_WS_ALLOWED_ORIGINS`: optional comma-separated origin allowlist
+
+Health endpoint:
+
+```
+GET /health
+```
+
+WebSocket endpoint:
+
+```
+GET /ws
+```
+
 ## Debug runs
 
 ```
